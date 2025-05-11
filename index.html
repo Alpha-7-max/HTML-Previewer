@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced HTML Online Viewer (Monaco Editor)</title>
+    <title>HTML Previewer (Monaco Editor)</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Monaco Editor Loader -->
@@ -156,33 +156,29 @@
 
         .viewer {
             flex: 1;
-            position: relative; /* Needed for absolute positioning of tab content */
+            position: relative;
             overflow: hidden;
             background-color: var(--bg-primary);
-            display: flex; /* Use flex for child */
+            display: flex;
         }
 
         .tab-content {
-            display: none; /* Controlled by 'active' class */
-            flex: 1; /* Allow content to fill viewer */
-            overflow: hidden; /* Prevent double scrollbars, handled by editor/iframe */
-            height: 100%; /* Fill the viewer height */
+            display: none;
+            flex: 1;
+            overflow: hidden;
+            height: 100%;
         }
         .tab-content.active {
-            display: flex; /* Use flex to make content fill space */
-            flex-direction: column; /* Stack content vertically if needed */
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Container for Monaco Editor */
         #editorContainer {
             width: 100%;
-            height: 100%; /* Fill the tab-content area */
-            min-height: 100px; /* Ensure it has some height */
+            height: 100%;
+            min-height: 100px;
         }
 
-        #previewTab.active {
-             /* display: block; */ /* Already handled by .tab-content.active */
-        }
         #previewFrame {
             width: 100%;
             height: 100%;
@@ -190,7 +186,6 @@
             background-color: white;
         }
 
-        /* Error Console */
         .error-console {
             background-color: var(--error-bg);
             color: var(--error-color);
@@ -198,9 +193,9 @@
             border-top: 1px solid var(--border-color);
             font-size: 13px;
             font-family: var(--font-mono);
-            max-height: 100px; /* Limit height */
-            overflow-y: auto; /* Allow scrolling */
-            display: none; /* Hidden by default */
+            max-height: 100px;
+            overflow-y: auto;
+            display: none;
             flex-shrink: 0;
         }
         .error-console.visible {
@@ -208,7 +203,7 @@
         }
         .error-console pre {
              margin: 0;
-             white-space: pre-wrap; /* Wrap long error messages */
+             white-space: pre-wrap;
              word-break: break-all;
         }
 
@@ -222,7 +217,7 @@
             flex-shrink: 0;
         }
 
-        .sr-only { /* Screen reader only */
+        .sr-only {
             position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
             overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
         }
@@ -231,25 +226,21 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <div class="title"><i class="fas fa-code-branch"></i>Advanced HTML Viewer</div>
-        <!-- Maybe theme toggle later -->
+        <div class="title"><i class="fas fa-display"></i>HTML Previewer</div>
     </div>
 
     <!-- Main Content Area -->
     <div class="main">
         <!-- Sidebar -->
         <div class="sidebar">
-            <button id="previewBtn"><i class="fas fa-eye"></i>Preview</button>
-            <button id="sampleBtn"><i class="fas fa-file-alt"></i>Sample</button>
             <button id="clearBtn"><i class="fas fa-eraser"></i>Clear</button>
-            <button id="formatBtn"><i class="fas fa-align-left"></i>Format Code</button>
+            <button id="copyCodeBtn"><i class="fas fa-copy"></i>Copy Code</button>   <!-- NEW BUTTON -->
+            <button id="pasteCodeBtn"><i class="fas fa-paste"></i>Paste Code</button> <!-- NEW BUTTON -->
             <hr style="border: none; border-top: 1px solid var(--border-color); margin: 10px 0;">
-            <button id="importBtn"><i class="fas fa-upload"></i>Import HTML</button>
+            <button id="importBtn"><i class="fas fa-upload"></i>Import html code</button>
             <input type="file" id="fileInput" accept=".html,.htm" class="sr-only">
-            <button id="exportBtn"><i class="fas fa-download"></i>Export HTML</button>
+            <button id="exportBtn"><i class="fas fa-download"></i>Download</button>
             <hr style="border: none; border-top: 1px solid var(--border-color); margin: 10px 0;">
-            <!-- Removed Highlight/Expand/Collapse as they are built into Monaco -->
-            <button id="aboutBtn"><i class="fas fa-info-circle"></i>About</button>
         </div>
 
         <!-- Content Area (Editor/Preview) -->
@@ -262,7 +253,6 @@
             <!-- Viewer Area -->
             <div class="viewer">
                 <div id="htmlTab" class="tab-content active">
-                    <!-- Monaco Editor will be placed here -->
                     <div id="editorContainer"></div>
                 </div>
                 <div id="previewTab" class="tab-content">
@@ -278,16 +268,13 @@
 
     <!-- Footer -->
     <div class="footer">
-        Powered by Monaco Editor | © 2025 Advanced HTML Viewer
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // --- Global Variables ---
-            let htmlEditorInstance = null; // To hold the Monaco editor instance
+            let htmlEditorInstance = null;
 
-            // --- DOM Element Selection ---
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
             const editorContainer = document.getElementById('editorContainer');
@@ -295,15 +282,20 @@
             const fileInput = document.getElementById('fileInput');
             const errorConsole = document.getElementById('errorConsole');
             const errorOutput = document.getElementById('errorOutput');
+            
+            const clearBtn = document.getElementById('clearBtn');
+            const importBtn = document.getElementById('importBtn');
+            const exportBtn = document.getElementById('exportBtn');
+            const copyCodeBtn = document.getElementById('copyCodeBtn');   // NEW
+            const pasteCodeBtn = document.getElementById('pasteCodeBtn'); // NEW
 
-            // Check essential elements
+
             if (!editorContainer || !previewFrame || !fileInput || tabs.length === 0 || tabContents.length === 0 || !errorConsole || !errorOutput) {
                 console.error("Essential UI elements not found! Check HTML IDs.");
                 alert("Initialization Error: Could not find essential page elements. Viewer may not work correctly.");
                 return;
             }
 
-            // --- Utility Functions ---
             function debounce(func, wait) {
                 let timeout;
                 return function executedFunction(...args) {
@@ -316,12 +308,11 @@
                 };
             }
 
-            // Function to log errors to the dedicated console area
             function logError(message, isHtmlError = false) {
-                console.error(message); // Also log to browser console
-                errorOutput.textContent += `[${new Date().toLocaleTimeString()}] ${isHtmlError ? 'Preview Error' : 'App Error'}: ${message}\n`;
+                console.error(message); // Also log to browser console for devs
+                const prefix = isHtmlError ? 'Preview Error' : 'App Info/Error';
+                errorOutput.textContent += `[${new Date().toLocaleTimeString()}] ${prefix}: ${message}\n`;
                 errorConsole.classList.add('visible');
-                // Scroll to bottom
                 errorConsole.scrollTop = errorConsole.scrollHeight;
             }
 
@@ -330,27 +321,21 @@
                  errorConsole.classList.remove('visible');
              }
 
-            // --- Core Functionality ---
             function updatePreview() {
-                 if (!htmlEditorInstance) return; // Don't run if editor isn't ready
-
+                 if (!htmlEditorInstance) return;
                 try {
                     const html = htmlEditorInstance.getValue();
                     previewFrame.srcdoc = html;
-                    // If successful, maybe clear previous *preview* errors
-                    // clearErrorConsole(); // Decide if you want this behavior
                 } catch (e) {
                     logError(`Failed to render preview: ${e.message}`, true);
-                     // Attempt to display error within the iframe as fallback
                      try {
                          previewFrame.srcdoc = `<html><body style="font-family: sans-serif; color: red;"><h1>Preview Error</h1><p>Could not render HTML. See error console below or browser console.</p><pre>${e.message}</pre></body></html>`;
                      } catch (fallbackError) { /* Ignore */ }
                 }
             }
 
-            const debouncedUpdatePreview = debounce(updatePreview, 400); // Slightly longer debounce for complex editor
+            const debouncedUpdatePreview = debounce(updatePreview, 400);
 
-            // --- Monaco Editor Initialization ---
             require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' }});
             require(['vs/editor/editor.main'], function () {
                 try {
@@ -371,10 +356,10 @@
 </body>
 </html>`,
                         language: 'html',
-                        theme: 'vs-light', // or 'vs-dark'
-                        automaticLayout: true, // Adjusts editor size on container resize
+                        theme: 'vs-light',
+                        automaticLayout: true,
                         lineNumbers: 'on',
-                        wordWrap: 'on', // Enable word wrapping
+                        wordWrap: 'on',
                         minimap: { enabled: true },
                         scrollbar: {
                              verticalScrollbarSize: 10,
@@ -382,38 +367,26 @@
                         }
                     });
 
-                    // console.log("Monaco Editor Initialized");
-
-                    // Update preview when content changes
                     htmlEditorInstance.onDidChangeModelContent(debouncedUpdatePreview);
-
-                    // Initial preview update
                     updatePreview();
-
-                    // Enable format button now that editor is ready
-                    document.getElementById('formatBtn').disabled = false;
-
 
                 } catch (error) {
                      logError(`Failed to initialize Monaco Editor: ${error.message}`);
                      editorContainer.innerHTML = `<p style="color: red; padding: 15px;">Failed to load code editor. Please check your internet connection and browser console.</p>`;
-                     // Disable buttons that rely on the editor
-                     document.getElementById('formatBtn').disabled = true;
-                     document.getElementById('clearBtn').disabled = true;
-                     document.getElementById('sampleBtn').disabled = true;
-                     // Keep Import/Export potentially enabled, but they might fail
+                     
+                     if (clearBtn) clearBtn.disabled = true;
+                     if (copyCodeBtn) copyCodeBtn.disabled = true;   // NEW: Disable on error
+                     if (pasteCodeBtn) pasteCodeBtn.disabled = true; // NEW: Disable on error
+                     if (importBtn) importBtn.disabled = true; // Good to disable these too
+                     if (exportBtn) exportBtn.disabled = true;
                 }
             });
 
-
-            // --- Event Listeners ---
-
-            // Tab Switching
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     if (!htmlEditorInstance && tab.getAttribute('data-tab') === 'html') {
                          logError("Editor is not yet initialized.");
-                         return; // Prevent switching if editor failed
+                         return;
                     }
 
                     const targetTabName = tab.getAttribute('data-tab');
@@ -426,87 +399,98 @@
                         targetContent.classList.add('active');
                          if (targetTabName === 'preview') {
                              clearErrorConsole(); // Clear app errors when switching to preview
-                             updatePreview(); // Use non-debounced for immediate feedback
+                             updatePreview();
                          }
                         if (targetTabName === 'html' && htmlEditorInstance) {
-                             htmlEditorInstance.focus(); // Focus editor when switching back
-                        }
-                        // Trigger layout recalculation for Monaco if its container was hidden
-                         if (targetTabName === 'html' && htmlEditorInstance) {
-                             // Small delay helps ensure the container is fully visible
+                             htmlEditorInstance.focus();
                              setTimeout(() => htmlEditorInstance.layout(), 50);
-                         }
+                        }
                     } else {
                          logError(`Content element for tab "${targetTabName}" not found!`);
                     }
                 });
             });
 
-            // --- Sidebar Button Listeners (Updated for Monaco) ---
+            if (clearBtn) {
+                clearBtn.addEventListener('click', () => {
+                    if (!htmlEditorInstance) { logError("Editor not ready."); return; }
+                    clearErrorConsole();
+                    htmlEditorInstance.setValue('');
+                    htmlEditorInstance.focus();
+                    updatePreview();
+                });
+            }
+            
+            // Copy Code Button Listener
+            if (copyCodeBtn) {
+                copyCodeBtn.addEventListener('click', async () => {
+                    if (!htmlEditorInstance) {
+                        logError("Editor not ready for copying.");
+                        return;
+                    }
+                    try {
+                        const codeToCopy = htmlEditorInstance.getValue();
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            await navigator.clipboard.writeText(codeToCopy);
+                        } else {
+                            // Fallback for older browsers or insecure contexts
+                            const textArea = document.createElement("textarea");
+                            textArea.value = codeToCopy;
+                            textArea.style.position = "fixed"; // Prevent scrolling to bottom
+                            textArea.style.opacity = "0"; // Hide it
+                            document.body.appendChild(textArea);
+                            textArea.focus();
+                            textArea.select();
+                            try {
+                                document.execCommand('copy');
+                            } catch (err) {
+                                logError('Fallback copy failed: ' + err.message);
+                                alert("Failed to copy code. Your browser might not support this feature or it was blocked.");
+                            }
+                            document.body.removeChild(textArea);
+                        }
+                    } catch (err) {
+                        logError(`Error copying code: ${err.message}`);
+                        alert("Failed to copy code.");
+                    }
+                });
+            }
 
-            document.getElementById('previewBtn').addEventListener('click', () => {
-                 document.querySelector('.tab[data-tab="preview"]')?.click();
-            });
+            // Paste Code Button Listener
+            if (pasteCodeBtn) {
+                pasteCodeBtn.addEventListener('click', async () => {
+                    if (!htmlEditorInstance) {
+                        logError("Editor not ready for pasting.");
+                        return;
+                    }
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.readText) {
+                            const textFromClipboard = await navigator.clipboard.readText();
+                            htmlEditorInstance.setValue(textFromClipboard);
+                            updatePreview(); // Update preview after pasting
+                            
+                            htmlEditorInstance.focus();
+                        } else {
+                            alert("Pasting from clipboard is not directly supported or permission was denied. Please try Ctrl+V or Cmd+V in the editor.");
+                            logError("Clipboard read API not available or permission denied.");
+                        }
+                    } catch (err) {
+                        logError(`Error pasting code: ${err.message}`);
+                        if (err.name === 'NotAllowedError' || err.message.includes('permission')) {
+                            alert("Pasting from clipboard was not allowed. You might need to grant permission in your browser, or the page needs to be secure (HTTPS).");
+                        } else {
+                            alert("Failed to paste code. Check the console for more details.");
+                        }
+                    }
+                });
+            }
 
-            document.getElementById('sampleBtn').addEventListener('click', () => {
-                 if (!htmlEditorInstance) { logError("Editor not ready."); return; }
-                clearErrorConsole();
-                htmlEditorInstance.setValue(`<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Page</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.6; padding: 20px; background-color: #f0f0f0; color: #333; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #0d6efd; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0;}
-        code { background-color: #e8e8e8; padding: 2px 5px; border-radius: 3px; font-family: var(--font-mono); }
-        button { padding: 10px 15px; background-color: #0d6efd; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; }
-        button:hover { background-color: #0b5ed7; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>HTML Viewer Sample</h1>
-        <p>This uses the powerful <strong>Monaco Editor</strong> (like VS Code)!</p>
-        <ul><li>Syntax highlighting</li><li>Line numbers</li><li>Code folding</li></ul>
-        <button onclick="alert('Hello from the sample!')">Click Test</button>
-    </div>
-</body>
-</html>`);
-                updatePreview(); // Update preview
-                document.querySelector('.tab[data-tab="html"]')?.click(); // Switch to editor tab
-            });
 
-            document.getElementById('clearBtn').addEventListener('click', () => {
-                 if (!htmlEditorInstance) { logError("Editor not ready."); return; }
-                clearErrorConsole();
-                htmlEditorInstance.setValue('');
-                htmlEditorInstance.focus();
-                updatePreview();
-            });
-
-            // Format Button (Uses Monaco's built-in formatter)
-            const formatBtn = document.getElementById('formatBtn');
-             formatBtn.disabled = true; // Disabled until editor loads
-             formatBtn.addEventListener('click', async () => {
-                 if (!htmlEditorInstance) { logError("Editor not ready."); return; }
-                try {
-                     clearErrorConsole();
-                     // Trigger the format action
-                     await htmlEditorInstance.getAction('editor.action.formatDocument').run();
-                     // console.log("Formatting applied.");
-                     updatePreview(); // Update preview after formatting
-                 } catch (formatError) {
-                     logError(`Formatting failed: ${formatError.message}`);
-                 }
-            });
-
-            // Import
-            document.getElementById('importBtn').addEventListener('click', () => {
-                fileInput.click();
-            });
+            if (importBtn) {
+                importBtn.addEventListener('click', () => {
+                    fileInput.click();
+                });
+            }
 
             fileInput.addEventListener('change', (event) => {
                 const file = event.target.files[0];
@@ -517,7 +501,10 @@
                         try {
                             htmlEditorInstance.setValue(e.target.result);
                             updatePreview();
-                            document.querySelector('.tab[data-tab="html"]')?.click();
+                            const htmlTabSelector = document.querySelector('.tab[data-tab="html"]');
+                            if (htmlTabSelector) {
+                                htmlTabSelector.click();
+                            }
                         } catch (readError) {
                             logError(`Error processing file content: ${readError.message}`);
                         }
@@ -529,44 +516,31 @@
                 } else if (!htmlEditorInstance) {
                      logError("Cannot import file: Editor not initialized.");
                 }
-                event.target.value = null; // Reset input
+                event.target.value = null;
             });
 
-            // Export
-            document.getElementById('exportBtn').addEventListener('click', () => {
-                if (!htmlEditorInstance) { logError("Editor not ready."); return; }
-                clearErrorConsole();
-                try {
-                    const htmlContent = htmlEditorInstance.getValue();
-                    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.setAttribute('href', url);
-                    link.setAttribute('download', 'page.html');
-                    link.style.display = 'none';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(url);
-                } catch (exportError) {
-                    logError(`Export failed: ${exportError.message}`);
-                }
-            });
-
-            // About Button
-            document.getElementById('aboutBtn').addEventListener('click', () => {
-                clearErrorConsole();
-                alert('Advanced HTML Viewer\nVersion 3.0\nPowered by Monaco Editor\n© 2025');
-            });
-
-             // Optional: Clear errors on successful preview update?
-             // previewFrame.onload = () => {
-             //    // Be careful with this - might clear legitimate app errors too early
-             //    // clearErrorConsole();
-             // };
-
-
-        }); // End DOMContentLoaded
+            if (exportBtn) {
+                exportBtn.addEventListener('click', () => {
+                    if (!htmlEditorInstance) { logError("Editor not ready."); return; }
+                    clearErrorConsole();
+                    try {
+                        const htmlContent = htmlEditorInstance.getValue();
+                        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.setAttribute('href', url);
+                        link.setAttribute('download', 'page.html');
+                        link.style.display = 'none';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+                    } catch (exportError) {
+                        logError(`Export failed: ${exportError.message}`);
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
