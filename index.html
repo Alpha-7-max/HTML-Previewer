@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Previewer (Monaco Editor)</title>
+    <title>HTML Previewer (VS Code Dark+ Inspired Theme)</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Monaco Editor Loader -->
@@ -21,206 +21,35 @@
             --error-color: #dc3545;
             --error-bg: #f8d7da;
             --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* Monaco will use its own */
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
         }
-
-        body {
-            font-family: var(--font-sans);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 14px;
-            overflow: hidden;
-        }
-
-        .header {
-            background-color: var(--bg-secondary);
-            padding: 12px 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-sm);
-            z-index: 10;
-            flex-shrink: 0;
-        }
-
-        .title {
-            font-weight: 600;
-            font-size: 18px;
-        }
-        .title i {
-            margin-right: 8px;
-            color: var(--accent-color);
-        }
-
-        .main {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .sidebar {
-            width: 220px;
-            background-color: var(--bg-secondary);
-            border-right: 1px solid var(--border-color);
-            padding: 15px 10px;
-            overflow-y: auto;
-            transition: width 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .sidebar button {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            padding: 10px 12px;
-            margin-bottom: 6px;
-            text-align: left;
-            background: none;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            color: var(--text-secondary);
-            font-size: 14px;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-        .sidebar button i {
-            margin-right: 12px;
-            width: 16px;
-            text-align: center;
-            color: var(--text-secondary);
-            transition: color 0.2s ease;
-        }
-        .sidebar button:hover {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-        .sidebar button:hover i {
-            color: var(--accent-color);
-        }
-        .sidebar button:active {
-             background-color: var(--border-color);
-        }
-        .sidebar button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            background-color: transparent !important; /* Override hover */
-            color: var(--text-secondary) !important;
-        }
-        .sidebar button:disabled i {
-             color: var(--text-secondary) !important;
-        }
-
-
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border-color);
-            background-color: var(--bg-secondary);
-             padding: 0 10px;
-             flex-shrink: 0;
-        }
-
-        .tab {
-            padding: 12px 18px;
-            cursor: pointer;
-            background-color: transparent;
-            border: none;
-            border-bottom: 2px solid transparent;
-            margin-right: 5px;
-            margin-bottom: -1px;
-            color: var(--text-secondary);
-            transition: border-color 0.2s ease, color 0.2s ease;
-            font-weight: 500;
-        }
-        .tab.active {
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--accent-color);
-            background-color: var(--bg-primary);
-        }
-        .tab:hover:not(.active) {
-            color: var(--text-primary);
-        }
-
-        .viewer {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            background-color: var(--bg-primary);
-            display: flex;
-        }
-
-        .tab-content {
-            display: none;
-            flex: 1;
-            overflow: hidden;
-            height: 100%;
-        }
-        .tab-content.active {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #editorContainer {
-            width: 100%;
-            height: 100%;
-            min-height: 100px;
-        }
-
-        #previewFrame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background-color: white;
-        }
-
-        .error-console {
-            background-color: var(--error-bg);
-            color: var(--error-color);
-            padding: 8px 15px;
-            border-top: 1px solid var(--border-color);
-            font-size: 13px;
-            font-family: var(--font-mono);
-            max-height: 100px;
-            overflow-y: auto;
-            display: none;
-            flex-shrink: 0;
-        }
-        .error-console.visible {
-            display: block;
-        }
-        .error-console pre {
-             margin: 0;
-             white-space: pre-wrap;
-             word-break: break-all;
-        }
-
-        .footer {
-            padding: 10px 20px;
-            text-align: center;
-            background-color: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-            font-size: 12px;
-            color: var(--text-secondary);
-            flex-shrink: 0;
-        }
-
-        .sr-only {
-            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-            overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
-        }
+        body{font-family:var(--font-sans);margin:0;padding:0;display:flex;flex-direction:column;height:100vh;background-color:var(--bg-primary);color:var(--text-primary);font-size:14px;overflow:hidden}
+        .header{background-color:var(--bg-secondary);padding:15px 25px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow-sm);z-index:10;flex-shrink:0}
+        .title{font-weight:600;font-size:20px}.title i{margin-right:8px;color:var(--accent-color)}
+        .main{display:flex;flex:1;overflow:hidden}
+        .sidebar{width:220px;background-color:var(--bg-secondary);border-right:1px solid var(--border-color);padding:15px 10px;overflow-y:auto;transition:width .3s ease;flex-shrink:0}
+        .sidebar button{display:flex;align-items:center;width:100%;padding:10px 15px;margin-bottom:6px;text-align:left;background:none;border:none;cursor:pointer;border-radius:6px;color:var(--text-secondary);font-size:14px;transition:background-color .2s ease,color .2s ease,transform .1s ease}
+        .sidebar button i{margin-right:12px;width:16px;text-align:center;color:var(--text-secondary);transition:color .2s ease}
+        .sidebar button:hover{background-color:var(--bg-tertiary);color:var(--text-primary)}
+        .sidebar button:hover i{color:var(--accent-color)}
+        .sidebar button:active{background-color:var(--border-color);transform:translateY(1px)}
+        .sidebar button:disabled{opacity:.6;cursor:not-allowed;background-color:transparent!important;color:var(--text-secondary)!important}
+        .sidebar button:disabled i{color:var(--text-secondary)!important}
+        .content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+        .tabs{display:flex;border-bottom:1px solid var(--border-color);background-color:var(--bg-secondary);padding:0 10px;flex-shrink:0}
+        .tab{padding:12px 20px;cursor:pointer;background-color:transparent;border:none;border-bottom:3px solid transparent;margin-right:5px;margin-bottom:-1px;color:var(--text-secondary);transition:border-color .2s ease,color .2s ease;font-weight:500}
+        .tab.active{color:var(--accent-color);border-bottom-color:var(--accent-color);background-color:var(--bg-primary);position:relative}
+        .tab:not(.active):hover{color:var(--text-primary);border-bottom-color:var(--bg-tertiary)}
+        .viewer{flex:1;position:relative;overflow:hidden;background-color:var(--bg-primary);display:flex}
+        .tab-content{display:none;flex:1;overflow:hidden;height:100%}
+        .tab-content.active{display:flex;flex-direction:column}
+        #editorContainer{width:100%;height:100%;min-height:100px}
+        #previewFrame{width:100%;height:100%;border:none;background-color:#fff}
+        .error-console{background-color:var(--error-bg);color:var(--error-color);padding:8px 15px;border-top:1px solid var(--border-color);font-size:13px;font-family:var(--font-mono);max-height:100px;overflow-y:auto;display:none;flex-shrink:0}
+        .error-console.visible{display:block}.error-console pre{margin:0;white-space:pre-wrap;word-break:break-all}
+        .footer{padding:10px 20px;text-align:center;background-color:var(--bg-secondary);border-top:1px solid var(--border-color);font-size:12px;color:var(--text-secondary);flex-shrink:0}
+        .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
     </style>
 </head>
 <body>
@@ -234,10 +63,10 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <button id="clearBtn"><i class="fas fa-eraser"></i>Clear</button>
-            <button id="copyCodeBtn"><i class="fas fa-copy"></i>Copy Code</button>   <!-- NEW BUTTON -->
-            <button id="pasteCodeBtn"><i class="fas fa-paste"></i>Paste Code</button> <!-- NEW BUTTON -->
+            <button id="copyCodeBtn"><i class="fas fa-copy"></i>Copy Code</button>
+            <button id="pasteCodeBtn"><i class="fas fa-paste"></i>Paste Code</button>
             <hr style="border: none; border-top: 1px solid var(--border-color); margin: 10px 0;">
-            <button id="importBtn"><i class="fas fa-upload"></i>Import html code</button>
+            <button id="importBtn"><i class="fas fa-upload"></i>Import HTML</button>
             <input type="file" id="fileInput" accept=".html,.htm" class="sr-only">
             <button id="exportBtn"><i class="fas fa-download"></i>Download</button>
             <hr style="border: none; border-top: 1px solid var(--border-color); margin: 10px 0;">
@@ -272,7 +101,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
             let htmlEditorInstance = null;
 
             const tabs = document.querySelectorAll('.tab');
@@ -286,40 +114,30 @@
             const clearBtn = document.getElementById('clearBtn');
             const importBtn = document.getElementById('importBtn');
             const exportBtn = document.getElementById('exportBtn');
-            const copyCodeBtn = document.getElementById('copyCodeBtn');   // NEW
-            const pasteCodeBtn = document.getElementById('pasteCodeBtn'); // NEW
+            const copyCodeBtn = document.getElementById('copyCodeBtn');
+            const pasteCodeBtn = document.getElementById('pasteCodeBtn');
 
-
-            if (!editorContainer || !previewFrame || !fileInput || tabs.length === 0 || tabContents.length === 0 || !errorConsole || !errorOutput) {
+            if (!editorContainer || !previewFrame || !fileInput || tabs.length === 0 || tabContents.length === 0 || !errorConsole || !errorOutput || !clearBtn || !importBtn || !exportBtn || !copyCodeBtn || !pasteCodeBtn) {
                 console.error("Essential UI elements not found! Check HTML IDs.");
                 alert("Initialization Error: Could not find essential page elements. Viewer may not work correctly.");
+                [clearBtn, importBtn, exportBtn, copyCodeBtn, pasteCodeBtn].forEach(btn => {
+                    if (btn) btn.disabled = true;
+                });
                 return;
             }
-
-            function debounce(func, wait) {
-                let timeout;
-                return function executedFunction(...args) {
-                    const later = () => {
-                        clearTimeout(timeout);
-                        func.apply(this, args);
-                    };
-                    clearTimeout(timeout);
-                    timeout = setTimeout(later, wait);
-                };
-            }
-
+            
             function logError(message, isHtmlError = false) {
-                console.error(message); // Also log to browser console for devs
+                console.error(message);
                 const prefix = isHtmlError ? 'Preview Error' : 'App Info/Error';
                 errorOutput.textContent += `[${new Date().toLocaleTimeString()}] ${prefix}: ${message}\n`;
                 errorConsole.classList.add('visible');
                 errorConsole.scrollTop = errorConsole.scrollHeight;
             }
 
-             function clearErrorConsole() {
+            function clearErrorConsole() {
                  errorOutput.textContent = '';
                  errorConsole.classList.remove('visible');
-             }
+            }
 
             function updatePreview() {
                  if (!htmlEditorInstance) return;
@@ -333,30 +151,136 @@
                      } catch (fallbackError) { /* Ignore */ }
                 }
             }
-
+            
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func.apply(this, args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
             const debouncedUpdatePreview = debounce(updatePreview, 400);
 
+
+            // --- MONACO EDITOR INITIALIZATION ---
             require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' }});
             require(['vs/editor/editor.main'], function () {
+
+                // ---- DEFINE CUSTOM THEME (VS Code Dark+ Inspired Syntax on Light BG) ----
+                monaco.editor.defineTheme('vsCodeDarkPlusInspiredLight', {
+                    base: 'vs', // Light theme base for editor UI
+                    inherit: true,
+                    rules: [
+                        // General
+                        { token: 'comment', foreground: '6A9955', fontStyle: 'italic' }, 
+                        { token: 'delimiter', foreground: '808080' }, // Changed from D4D4D4 to a darker gray for better visibility on white
+                        { token: 'operator', foreground: '808080' }, 
+
+                        // HTML
+                        { token: 'tag.html', foreground: '569CD6' }, 
+                        { token: 'keyword.doctype.html', foreground: '569CD6', fontStyle: 'bold' },
+                        { token: 'attribute.name.html', foreground: '9CDCFE' }, 
+                        { token: 'attribute.value.html', foreground: 'CE9178' }, 
+
+                        // CSS
+                        { token: 'tag.css', foreground: 'D7BA7D' }, 
+                        { token: 'metatag. självständig.tag.class.css', foreground: 'D7BA7D' },
+                        { token: 'metatag. självständig.tag.id.css', foreground: 'D7BA7D' },
+                        { token: 'attribute.name.css', foreground: '9CDCFE' }, 
+                        { token: 'attribute.value.css', foreground: 'CE9178' }, 
+                        { token: 'attribute.value.number.css', foreground: 'B5CEA8' }, 
+                        { token: 'attribute.value.unit.css', foreground: 'B5CEA8' },   
+                        { token: 'attribute.value.hex.css', foreground: 'B5CEA8' },    
+                        
+                        // JavaScript
+                        { token: 'keyword.js', foreground: '569CD6'}, 
+                        { token: 'identifier.js', foreground: '9CDCFE' }, 
+                        { token: 'string.js', foreground: 'CE9178' }, 
+                        { token: 'number.js', foreground: 'B5CEA8' }, 
+                        { token: 'type.identifier.js', foreground: '4EC9B0' }, 
+                        
+                        { token: 'delimiter.square.js', foreground: '808080' }, 
+                        { token: 'delimiter.parenthesis.js', foreground: '808080' },
+                        { token: 'delimiter.curly.js', foreground: '808080' }
+                    ],
+                    colors: {
+                        'editor.background': '#1e1e1e', 
+                        'editor.foreground': '#d4d4d4', 
+                        'editorLineNumber.foreground': '#858585',
+                        'editorCursor.foreground': '#ffffff',
+                        'editorIndentGuide.background': '#404040', 
+                        'editorWhitespace.foreground': '#404040', 
+                        'editor.selectionBackground': '#264f78', 
+                        'editor.lineHighlightBackground': '#2a2d2e' 
+                    }
+                });
+                // ---- END THEME DEFINITION ----
+
                 try {
                     htmlEditorInstance = monaco.editor.create(editorContainer, {
                         value: `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="mainHtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome!</title>
+    <!-- This is a lovely HTML comment -->
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        h1 { color: #0d6efd; }
+        /* This is a CSS comment */
+        body.app-body { 
+            font-family: "Segoe UI", sans-serif; /* CSS property with string value */
+            padding: 20px; /* CSS value with unit */
+            margin: 0;
+            background-color: #f0f8ff; /* CSS hex color */
+        }
+        h1.title-main, #siteTitle { 
+            color: #0d6efd; 
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+        }
+        .container > p {
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
-    <h1>Hello from Monaco Editor!</h1>
-    <p>Edit this HTML code here.</p>
+    <h1 class="main-title" id="siteTitle">Hello from Monaco Editor!</h1>
+    <div class="container">
+        <p id="intro">Edit this <strong>HTML</strong> code here & see live changes.</p>
+    </div>
+    <script>
+        // This is a JavaScript comment
+        function greet(name) {
+            const PI = 3.14159;
+            let message = "Hello, " + name + "!"; // JS string and keyword
+            let items = [10, 20, PI];
+            if (name && (name.length > 0)) { // Example with operators
+                console.log(message, items);
+            }
+            return \`Greeting for \${name} processed.\`;
+        }
+        greet("World");
+        // Another example
+        class MyClass {
+            constructor() { this.value = 100; }
+            increment() { this.value++; }
+        }
+        let instance = new MyClass();
+        while(instance.value < 102) {
+            instance.increment();
+        }
+        var test = null; // another keyword
+    <\/script> 
 </body>
 </html>`,
                         language: 'html',
-                        theme: 'vs-light',
+                        theme: 'vsCodeDarkPlus', // APPLY CUSTOM THEME HERE
+                        fontFamily: "Consolas, 'Droid Sans Mono', 'Courier New', monospace, 'Droid Sans Fallback'", // VS Code like font stack
+                        fontWeight: 'normal', 
+                        fontSize: 13, // Common coding font size
                         automaticLayout: true,
                         lineNumbers: 'on',
                         wordWrap: 'on',
@@ -373,32 +297,31 @@
                 } catch (error) {
                      logError(`Failed to initialize Monaco Editor: ${error.message}`);
                      editorContainer.innerHTML = `<p style="color: red; padding: 15px;">Failed to load code editor. Please check your internet connection and browser console.</p>`;
-                     
                      if (clearBtn) clearBtn.disabled = true;
-                     if (copyCodeBtn) copyCodeBtn.disabled = true;   // NEW: Disable on error
-                     if (pasteCodeBtn) pasteCodeBtn.disabled = true; // NEW: Disable on error
-                     if (importBtn) importBtn.disabled = true; // Good to disable these too
+                     if (copyCodeBtn) copyCodeBtn.disabled = true;
+                     if (pasteCodeBtn) pasteCodeBtn.disabled = true;
+                     if (importBtn) importBtn.disabled = true;
                      if (exportBtn) exportBtn.disabled = true;
                 }
             });
-
+            
+            // --- Event Listeners for Sidebar Buttons and Tabs ---
+            // (Same as your previous full code version)
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     if (!htmlEditorInstance && tab.getAttribute('data-tab') === 'html') {
                          logError("Editor is not yet initialized.");
                          return;
                     }
-
                     const targetTabName = tab.getAttribute('data-tab');
                     tabs.forEach(t => t.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
-
                     tab.classList.add('active');
                     const targetContent = document.getElementById(targetTabName + 'Tab');
                     if (targetContent) {
                         targetContent.classList.add('active');
                          if (targetTabName === 'preview') {
-                             clearErrorConsole(); // Clear app errors when switching to preview
+                             clearErrorConsole();
                              updatePreview();
                          }
                         if (targetTabName === 'html' && htmlEditorInstance) {
@@ -421,54 +344,37 @@
                 });
             }
             
-            // Copy Code Button Listener
             if (copyCodeBtn) {
                 copyCodeBtn.addEventListener('click', async () => {
-                    if (!htmlEditorInstance) {
-                        logError("Editor not ready for copying.");
-                        return;
-                    }
+                    if (!htmlEditorInstance) { logError("Editor not ready for copying."); return; }
                     try {
                         const codeToCopy = htmlEditorInstance.getValue();
                         if (navigator.clipboard && navigator.clipboard.writeText) {
                             await navigator.clipboard.writeText(codeToCopy);
+                            alert("Code copied to clipboard!");
                         } else {
-                            // Fallback for older browsers or insecure contexts
                             const textArea = document.createElement("textarea");
                             textArea.value = codeToCopy;
-                            textArea.style.position = "fixed"; // Prevent scrolling to bottom
-                            textArea.style.opacity = "0"; // Hide it
+                            textArea.style.position = "fixed"; textArea.style.opacity = "0";
                             document.body.appendChild(textArea);
-                            textArea.focus();
-                            textArea.select();
-                            try {
-                                document.execCommand('copy');
-                            } catch (err) {
-                                logError('Fallback copy failed: ' + err.message);
-                                alert("Failed to copy code. Your browser might not support this feature or it was blocked.");
-                            }
+                            textArea.focus(); textArea.select();
+                            try { document.execCommand('copy'); alert("Code copied to clipboard (fallback)!"); }
+                            catch (err) { logError('Fallback copy failed: ' + err.message); alert("Failed to copy code."); }
                             document.body.removeChild(textArea);
                         }
-                    } catch (err) {
-                        logError(`Error copying code: ${err.message}`);
-                        alert("Failed to copy code.");
-                    }
+                    } catch (err) { logError(`Error copying code: ${err.message}`); alert("Failed to copy code."); }
                 });
             }
 
-            // Paste Code Button Listener
             if (pasteCodeBtn) {
                 pasteCodeBtn.addEventListener('click', async () => {
-                    if (!htmlEditorInstance) {
-                        logError("Editor not ready for pasting.");
-                        return;
-                    }
+                    if (!htmlEditorInstance) { logError("Editor not ready for pasting."); return; }
                     try {
                         if (navigator.clipboard && navigator.clipboard.readText) {
                             const textFromClipboard = await navigator.clipboard.readText();
                             htmlEditorInstance.setValue(textFromClipboard);
-                            updatePreview(); // Update preview after pasting
-                            
+                            updatePreview();
+                            alert("Code pasted from clipboard!");
                             htmlEditorInstance.focus();
                         } else {
                             alert("Pasting from clipboard is not directly supported or permission was denied. Please try Ctrl+V or Cmd+V in the editor.");
@@ -477,19 +383,14 @@
                     } catch (err) {
                         logError(`Error pasting code: ${err.message}`);
                         if (err.name === 'NotAllowedError' || err.message.includes('permission')) {
-                            alert("Pasting from clipboard was not allowed. You might need to grant permission in your browser, or the page needs to be secure (HTTPS).");
-                        } else {
-                            alert("Failed to paste code. Check the console for more details.");
-                        }
+                            alert("Pasting from clipboard was not allowed. Grant permission or use HTTPS.");
+                        } else { alert("Failed to paste code."); }
                     }
                 });
             }
 
-
             if (importBtn) {
-                importBtn.addEventListener('click', () => {
-                    fileInput.click();
-                });
+                importBtn.addEventListener('click', () => { fileInput.click(); });
             }
 
             fileInput.addEventListener('change', (event) => {
@@ -501,21 +402,12 @@
                         try {
                             htmlEditorInstance.setValue(e.target.result);
                             updatePreview();
-                            const htmlTabSelector = document.querySelector('.tab[data-tab="html"]');
-                            if (htmlTabSelector) {
-                                htmlTabSelector.click();
-                            }
-                        } catch (readError) {
-                            logError(`Error processing file content: ${readError.message}`);
-                        }
+                            document.querySelector('.tab[data-tab="html"]')?.click();
+                        } catch (readError) { logError(`Error processing file content: ${readError.message}`); }
                     };
-                    reader.onerror = (e) => {
-                        logError(`Error reading file: ${reader.error}`);
-                    };
+                    reader.onerror = () => { logError(`Error reading file: ${reader.error}`); };
                     reader.readAsText(file);
-                } else if (!htmlEditorInstance) {
-                     logError("Cannot import file: Editor not initialized.");
-                }
+                } else if (!htmlEditorInstance) { logError("Cannot import file: Editor not initialized."); }
                 event.target.value = null;
             });
 
@@ -535,11 +427,10 @@
                         link.click();
                         document.body.removeChild(link);
                         URL.revokeObjectURL(url);
-                    } catch (exportError) {
-                        logError(`Export failed: ${exportError.message}`);
-                    }
+                    } catch (exportError) { logError(`Export failed: ${exportError.message}`); }
                 });
             }
+
         });
     </script>
 </body>
