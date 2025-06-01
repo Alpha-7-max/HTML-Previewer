@@ -13,34 +13,99 @@
     <style>
         /* Custom CSS - for things Tailwind doesn't easily cover or for overrides */
         :root {
-            /* These are for reference from original if needed, Tailwind classes are primary */
-            --original-bg-secondary: #f8f9fa; /* Matched by bg-gray-50 */
-            --original-bg-tertiary: #e9ecef; /* Matched by bg-gray-200 */
-            --original-border-color: #dee2e6; /* Matched by border-gray-200/border-gray-300 */
-            --accent-color: #0d6efd; 
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa; /* Sidebar BG */
+            --bg-tertiary: #e9ecef;  /* Sidebar button hover BG */
+            --border-color: #dee2e6; /* Sidebar border, HR, button active BG */
+            --text-primary: #212529; /* Sidebar button hover text */
+            --text-secondary: #495057;/* Sidebar button default text/icon */
+            --accent-color: #0d6efd;  /* Sidebar button hover icon, Original title icon color */
             --accent-color-hover: #0b5ed7;
+            --error-color: #dc3545;
+            --error-bg: #f8d7da;
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --text-green-500: #10B981; /* For checkmark icon */
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            font-family: var(--font-sans);
         }
 
+        /* Sidebar specific styles to match original look */
+        .sidebar {
+            width: 220px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 15px 10px;
+        }
+
+        .sidebar button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            color: var(--text-secondary);
+            font-size: 14px; 
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
         .sidebar button i {
+            margin-right: 12px;
+            width: 16px; 
+            text-align: center;
+            color: var(--text-secondary); /* Default icon color */
             transition: color 0.2s ease;
         }
+        .sidebar button:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        .sidebar button:hover i {
+            color: var(--accent-color); /* Icon color on hover */
+        }
+        .sidebar button:active {
+             background-color: var(--border-color);
+        }
+        .sidebar button:disabled,
+        .sidebar button[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background-color: transparent !important; 
+            color: var(--text-secondary) !important;
+        }
+        .sidebar button:disabled i,
+        .sidebar button[disabled] i {
+             color: var(--text-secondary) !important;
+        }
 
-        /* Custom CSS for Mobile Preview Frame */
+        .sidebar hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 10px 0;
+        }
+
+        /* Icon specific color for checkmark */
+        .sidebar button i.fa-check {
+            color: var(--text-green-500) !important; /* Override hover states for the checkmark */
+        }
+
+
+        /* Custom CSS for Mobile Preview Frame (simplified) */
         .mobile-frame {
             width: 360px; 
             height: 740px; 
             border: 14px solid black;
             border-radius: 44px;
-            background-color: black; 
+            background-color: black;
             box-shadow: 0 10px 30px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden; 
+            overflow: hidden;
             margin: auto; 
         }
 
@@ -57,74 +122,73 @@
              word-break: break-all;
         }
 
-        .sr-only { 
+        .sr-only {
             position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
             overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
         }
 
-        /* Tab styling using Tailwind active states in JS */
         .tab.active {
-            /* Applied by JS: 'text-blue-600', 'border-blue-600', 'bg-white' */
+            /* Tailwind applies these: 'text-blue-600', 'border-blue-600', 'bg-white' */
         }
         .tab:not(.active) {
-            /* Applied by JS: 'text-slate-600' (or gray), 'border-transparent' */
+            /* Tailwind applies these: 'text-slate-600', 'border-transparent' */
         }
     </style>
 </head>
-<body class="flex flex-col h-screen bg-white text-slate-800 text-sm overflow-hidden">
+<body class="flex flex-col h-screen bg-slate-50 text-slate-800 text-sm overflow-hidden">
     <!-- Header -->
-    <div class="header bg-gray-50 text-slate-900 py-3 px-5 border-b border-gray-200 flex justify-between items-center shadow-sm z-10 flex-shrink-0">
+    <div class="header bg-slate-100 text-slate-900 py-3 px-5 border-b border-slate-300 flex justify-between items-center shadow-sm z-10 flex-shrink-0">
         <div class="title font-semibold text-lg flex items-center">
-            <i class="fas fa-rocket mr-2 text-blue-600"></i>HTML Previewer
+            <i class="fas fa-rocket mr-2" style="color: var(--accent-color);"></i>HTML Previewer
         </div>
     </div>
 
     <!-- Main Content Area -->
     <div class="main flex flex-1 overflow-hidden">
         <!-- Sidebar -->
-        <div class="sidebar w-[240px] bg-gray-50 border-r border-gray-200 p-4 overflow-y-auto transition-all duration-300 ease-in-out flex-shrink-0 space-y-1.5">
-            <button id="clearBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
-                <i class="fas fa-eraser w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
+        <div class="sidebar overflow-y-auto transition-all duration-300 ease-in-out flex-shrink-0">
+            <button id="clearBtn">
+                <i class="fas fa-eraser"></i>
                 <span>Clear Editor</span>
             </button>
-            <button id="copyCodeBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
-                <i class="fas fa-copy w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
+            <button id="copyCodeBtn">
+                <i class="fas fa-copy"></i>
                 <span>Copy Code</span>
             </button>
-            <button id="pasteCodeBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
-                <i class="fas fa-paste w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
+            <button id="pasteCodeBtn">
+                <i class="fas fa-paste"></i>
                 <span>Paste Code</span>
             </button>
-            <hr class="border-gray-200 my-3">
-            <button id="importBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
-                <i class="fas fa-upload w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
+            <hr>
+            <button id="importBtn">
+                 <i class="fas fa-upload"></i>
                 <span>Import HTML</span>
             </button>
             <input type="file" id="fileInput" accept=".html,.htm" class="sr-only">
-            <button id="exportBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
-                <i class="fas fa-download w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
+            <button id="exportBtn">
+                <i class="fas fa-download"></i>
                 <span>Download HTML</span>
             </button>
-            <hr class="border-gray-200 my-3">
+            <hr>
         </div>
 
         <!-- Content Area (Editor/Preview) -->
         <div class="content flex-1 flex flex-col overflow-hidden bg-white">
             <!-- Tabs -->
-            <div class="tabs flex border-b border-gray-200 bg-gray-50 px-2.5 flex-shrink-0">
+            <div class="tabs flex border-b border-slate-300 bg-slate-100 px-2.5 flex-shrink-0">
                 <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium active" data-tab="html">HTML Editor</button>
                 <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium" data-tab="preview">PC Preview</button>
                 <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium" data-tab="mobilePreview">Mobile View</button>
             </div>
             <!-- Viewer Area -->
             <div class="viewer flex-1 relative overflow-hidden">
-                <div id="htmlTab" class="tab-content active absolute inset-0 z-10"> 
+                <div id="htmlTab" class="tab-content active absolute inset-0 z-10">
                     <div id="editorContainer" class="w-full h-full"></div>
                 </div>
                 <div id="previewTab" class="tab-content absolute inset-0">
                     <iframe id="previewFrame" title="PC HTML Preview" class="w-full h-full border-none bg-white"></iframe>
                 </div>
-                <div id="mobilePreviewTab" class="tab-content absolute inset-0 bg-gray-100"> <!-- Mobile preview container background -->
+                <div id="mobilePreviewTab" class="tab-content absolute inset-0 bg-slate-200">
                      <div class="mobile-frame-container flex justify-center items-center h-full p-1 sm:p-4 overflow-auto">
                         <div class="mobile-frame flex-shrink-0">
                             <iframe id="mobilePreviewFrame" title="Mobile HTML Preview"></iframe>
@@ -133,14 +197,14 @@
                 </div>
             </div>
              <!-- Error Console Area -->
-            <div id="errorConsole" class="error-console bg-red-50 text-red-700 p-2 px-4 border-t border-gray-200 text-xs font-mono max-h-28 overflow-y-auto hidden flex-shrink-0">
+            <div id="errorConsole" class="error-console bg-red-50 text-red-700 p-2 px-4 border-t border-slate-300 text-xs font-mono max-h-28 overflow-y-auto hidden flex-shrink-0">
                 <pre id="errorOutput"></pre>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <div class="footer py-2 px-5 text-center bg-gray-50 border-t border-gray-200 text-xs text-slate-500 flex-shrink-0">
+    <div class="footer py-2 px-5 text-center bg-slate-100 border-t border-slate-300 text-xs text-slate-500 flex-shrink-0">
         HTML Previewer © 2024. Built with Monaco, Tailwind CSS, and <i class="fas fa-heart text-red-500"></i>.
     </div>
 
@@ -269,20 +333,11 @@
                     updateSpecificPreview(previewFrame);
                     updateSpecificPreview(mobilePreviewFrame);
 
-                    // Focus editor if HTML tab is initially active and editor is ready
-                    const htmlEditorTabElement = document.querySelector('.tab[data-tab="html"]');
-                    if (htmlEditorInstance && htmlEditorTabElement && htmlEditorTabElement.classList.contains('active')) {
-                        setTimeout(() => {
-                            htmlEditorInstance.focus();
-                        }, 100); 
-                    }
-
                 } catch (error) {
                      logError(`Failed to initialize Monaco Editor: ${error.message}`);
                      editorContainer.innerHTML = `<div class="p-5 text-red-600">Failed to load code editor. Please check your internet connection and browser console.</div>`;
                      [clearBtn, copyCodeBtn, pasteCodeBtn, importBtn, exportBtn].forEach(btn => {
                          if(btn) btn.disabled = true;
-                         if(btn) btn.classList.add('opacity-50', 'cursor-not-allowed');
                      });
                 }
             });
@@ -296,8 +351,8 @@
 
                     const targetTabName = tab.getAttribute('data-tab');
                     tabs.forEach(t => {
-                        t.classList.remove('active', 'text-blue-600', 'border-blue-600', 'bg-white');
-                        t.classList.add('text-slate-600', 'border-transparent'); // Keep text-slate-600 for inactive tabs for consistency
+                        t.classList.remove('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
+                        t.classList.add('text-slate-600', 'border-transparent');
                     });
                     tabContents.forEach(c => {
                         c.classList.remove('active', 'z-10');
@@ -305,7 +360,7 @@
                     });
 
 
-                    tab.classList.add('active', 'text-blue-600', 'border-blue-600', 'bg-white');
+                    tab.classList.add('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
                     tab.classList.remove('text-slate-600', 'border-transparent');
 
                     const targetContent = document.getElementById(targetTabName + 'Tab');
@@ -358,7 +413,7 @@
             if (copyCodeBtn) {
                 const copyBtnIcon = copyCodeBtn.querySelector('i');
                 const copyBtnTextSpan = copyCodeBtn.querySelector('span');
-                const originalIconClass = copyBtnIcon.className; 
+                const originalIconClass = copyBtnIcon.className; // Store original Font Awesome classes
                 const originalBtnText = copyBtnTextSpan.textContent;
 
                 copyCodeBtn.addEventListener('click', async () => {
@@ -370,10 +425,12 @@
                         const codeToCopy = htmlEditorInstance.getValue();
                         await navigator.clipboard.writeText(codeToCopy);
                         
-                        copyBtnIcon.className = 'fas fa-check w-4 h-4 text-center mr-3 text-green-500';
+                        copyBtnIcon.className = 'fas fa-check'; // Change to checkmark
+                        // The CSS rule `.sidebar button i.fa-check` will handle the green color.
                         copyBtnTextSpan.textContent = 'Copied!';
+                        
                         setTimeout(() => {
-                            copyBtnIcon.className = originalIconClass;
+                            copyBtnIcon.className = originalIconClass; // Restore original classes
                             copyBtnTextSpan.textContent = originalBtnText;
                         }, 2000);
 
@@ -501,14 +558,16 @@
                 });
             }
 
-            // Initial active tab setup is primarily handled by HTML classes ('active', 'z-10').
-            // The Monaco init callback handles focusing the editor if it's the default.
-            // This fallback ensures *a* tab is active if HTML somehow misses it.
-            const initialActiveTabButton = document.querySelector('.tab.active');
-            if (!initialActiveTabButton && tabs.length > 0) {
-                tabs[0].click(); // Activate the first tab (HTML Editor by default)
+            const initialActiveTab = document.querySelector('.tab.active');
+            if (initialActiveTab) {
+                 if(!initialActiveTab.classList.contains('z-10')) initialActiveTab.classList.add('z-10');
+                 const initialActiveContent = document.getElementById(initialActiveTab.dataset.tab + 'Tab');
+                 if (initialActiveContent && !initialActiveContent.classList.contains('z-10')) {
+                    initialActiveContent.classList.add('z-10');
+                 }
+            } else if (tabs.length > 0) {
+                tabs[0].click(); 
             }
-
         });
     </script>
 </body>
