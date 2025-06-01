@@ -45,9 +45,6 @@
             margin: auto; 
         }
 
-        /* REMOVED .mobile-frame::before (notch) */
-        /* REMOVED .mobile-frame::after (home bar) */
-
         #mobilePreviewFrame {
             width: 100%;
             height: 100%;
@@ -117,7 +114,7 @@
             <!-- Tabs -->
             <div class="tabs flex border-b border-slate-300 bg-slate-100 px-2.5 flex-shrink-0">
                 <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium active" data-tab="html">HTML Editor</button>
-                <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium" data-tab="preview">Live Preview</button>
+                <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium" data-tab="preview">PC Preview</button>
                 <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium" data-tab="mobilePreview">Mobile View</button>
             </div>
             <!-- Viewer Area -->
@@ -126,7 +123,7 @@
                     <div id="editorContainer" class="w-full h-full"></div>
                 </div>
                 <div id="previewTab" class="tab-content absolute inset-0">
-                    <iframe id="previewFrame" title="HTML Preview" class="w-full h-full border-none bg-white"></iframe>
+                    <iframe id="previewFrame" title="PC HTML Preview" class="w-full h-full border-none bg-white"></iframe>
                 </div>
                 <div id="mobilePreviewTab" class="tab-content absolute inset-0 bg-slate-200">
                      <div class="mobile-frame-container flex justify-center items-center h-full p-1 sm:p-4 overflow-auto">
@@ -356,7 +353,7 @@
             if (copyCodeBtn) {
                 const copyBtnIcon = copyCodeBtn.querySelector('i');
                 const copyBtnTextSpan = copyCodeBtn.querySelector('span');
-                const originalIconClass = copyBtnIcon.className; // Store full original class string
+                const originalIconClass = copyBtnIcon.className; 
                 const originalBtnText = copyBtnTextSpan.textContent;
 
                 copyCodeBtn.addEventListener('click', async () => {
@@ -378,15 +375,13 @@
                         const htmlEditorTab = document.querySelector('.tab[data-tab="html"]');
                         if (htmlEditorTab) {
                              if (!htmlEditorTab.classList.contains('active')) {
-                                htmlEditorTab.click(); // This will focus the editor via tab click logic
+                                htmlEditorTab.click(); 
                             } else {
-                                // Already on HTML tab, just focus and select
                                 htmlEditorInstance.focus();
                             }
-                            // Ensure selection after potential tab switch and focus
                             setTimeout(() => {
                                 htmlEditorInstance.setSelection(htmlEditorInstance.getModel().getFullModelRange());
-                            }, 60); // slightly longer delay for tab switch visual + monaco rendering
+                            }, 60);
                         } else {
                              htmlEditorInstance.focus();
                              htmlEditorInstance.setSelection(htmlEditorInstance.getModel().getFullModelRange());
@@ -395,7 +390,7 @@
                     } catch (err) {
                         logError(`Error copying code: ${err.message}`);
                         alert("Failed to copy code. Your browser might not support this or permission was denied. Check console for details.");
-                         copyBtnIcon.className = originalIconClass; // Restore icon on error
+                         copyBtnIcon.className = originalIconClass; 
                          copyBtnTextSpan.textContent = originalBtnText;
                     }
                 });
@@ -428,7 +423,7 @@
                             const lastColumn = model.getLineMaxColumn(lastLine);
                             htmlEditorInstance.setPosition({ lineNumber: lastLine, column: lastColumn });
                             htmlEditorInstance.revealPositionInCenterIfOutsideViewport({ lineNumber: lastLine, column: lastColumn });
-                        }, 50); // Delay for tab switch if any, and editor readiness
+                        }, 50); 
 
 
                     } catch (err) {
