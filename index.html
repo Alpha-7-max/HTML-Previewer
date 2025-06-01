@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Previewer Pro (Monaco Editor)</title>
+    <title>HTML Previewer (Monaco Editor)</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Tailwind CSS -->
@@ -13,8 +13,12 @@
     <style>
         /* Custom CSS - for things Tailwind doesn't easily cover or for overrides */
         :root {
-            --accent-color: #0d6efd; /* Tailwind: text-blue-600 */
-            --accent-color-hover: #0b5ed7; /* Tailwind: text-blue-700 */
+            /* These are for reference from original if needed, Tailwind classes are primary */
+            --original-bg-secondary: #f8f9fa; /* Matched by bg-gray-50 */
+            --original-bg-tertiary: #e9ecef; /* Matched by bg-gray-200 */
+            --original-border-color: #dee2e6; /* Matched by border-gray-200/border-gray-300 */
+            --accent-color: #0d6efd; 
+            --accent-color-hover: #0b5ed7;
         }
 
         body {
@@ -26,22 +30,17 @@
         }
 
         /* Custom CSS for Mobile Preview Frame */
-        .mobile-frame-container {
-            /* bg-slate-200 */
-            /* p-5 */
-        }
-
         .mobile-frame {
             width: 360px; 
             height: 740px; 
             border: 14px solid black;
             border-radius: 44px;
-            background-color: black; /* For the frame itself, iframe bg is white */
+            background-color: black; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.1);
-            display: flex; /* To contain the iframe */
-            flex-direction: column; /* If you add headers/footers within the device frame */
-            position: relative; /* For potential future pseudo-elements if desired, but not for notch/bar */
-            overflow: hidden; /* Crucial for clipping the iframe to rounded corners */
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden; 
             margin: auto; 
         }
 
@@ -49,7 +48,7 @@
             width: 100%;
             height: 100%;
             border: none;
-            background-color: white; /* Inner background of the iframe content area */
+            background-color: white;
         }
 
         .error-console pre {
@@ -58,74 +57,74 @@
              word-break: break-all;
         }
 
-        .sr-only { /* Tailwind has this: sr-only */
+        .sr-only { 
             position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
             overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
         }
 
         /* Tab styling using Tailwind active states in JS */
         .tab.active {
-            /* These are applied by JS: 'text-blue-600', 'border-blue-600', 'bg-white' */
+            /* Applied by JS: 'text-blue-600', 'border-blue-600', 'bg-white' */
         }
         .tab:not(.active) {
-            /* These are applied by JS: 'text-slate-600', 'border-transparent' */
+            /* Applied by JS: 'text-slate-600' (or gray), 'border-transparent' */
         }
     </style>
 </head>
-<body class="flex flex-col h-screen bg-slate-50 text-slate-800 text-sm overflow-hidden">
+<body class="flex flex-col h-screen bg-white text-slate-800 text-sm overflow-hidden">
     <!-- Header -->
-    <div class="header bg-slate-100 text-slate-900 py-3 px-5 border-b border-slate-300 flex justify-between items-center shadow-sm z-10 flex-shrink-0">
+    <div class="header bg-gray-50 text-slate-900 py-3 px-5 border-b border-gray-200 flex justify-between items-center shadow-sm z-10 flex-shrink-0">
         <div class="title font-semibold text-lg flex items-center">
-            <i class="fas fa-rocket mr-2 text-blue-600"></i>HTML Previewer Pro
+            <i class="fas fa-rocket mr-2 text-blue-600"></i>HTML Previewer
         </div>
     </div>
 
     <!-- Main Content Area -->
     <div class="main flex flex-1 overflow-hidden">
         <!-- Sidebar -->
-        <div class="sidebar w-[240px] bg-slate-100 border-r border-slate-300 p-4 overflow-y-auto transition-all duration-300 ease-in-out flex-shrink-0 space-y-1.5">
-            <button id="clearBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-slate-200 hover:text-slate-900 transition-colors duration-150">
+        <div class="sidebar w-[240px] bg-gray-50 border-r border-gray-200 p-4 overflow-y-auto transition-all duration-300 ease-in-out flex-shrink-0 space-y-1.5">
+            <button id="clearBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
                 <i class="fas fa-eraser w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
                 <span>Clear Editor</span>
             </button>
-            <button id="copyCodeBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-slate-200 hover:text-slate-900 transition-colors duration-150">
+            <button id="copyCodeBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
                 <i class="fas fa-copy w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
                 <span>Copy Code</span>
             </button>
-            <button id="pasteCodeBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-slate-200 hover:text-slate-900 transition-colors duration-150">
+            <button id="pasteCodeBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
                 <i class="fas fa-paste w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
                 <span>Paste Code</span>
             </button>
-            <hr class="border-slate-300 my-3">
-            <button id="importBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-slate-200 hover:text-slate-900 transition-colors duration-150">
+            <hr class="border-gray-200 my-3">
+            <button id="importBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
                 <i class="fas fa-upload w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
                 <span>Import HTML</span>
             </button>
             <input type="file" id="fileInput" accept=".html,.htm" class="sr-only">
-            <button id="exportBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-slate-200 hover:text-slate-900 transition-colors duration-150">
+            <button id="exportBtn" class="group flex items-center w-full py-2.5 px-3 text-left bg-transparent border-none cursor-pointer rounded-md text-slate-700 hover:bg-gray-200 hover:text-slate-900 transition-colors duration-150">
                 <i class="fas fa-download w-4 h-4 text-center mr-3 text-slate-500 group-hover:text-blue-600"></i>
                 <span>Download HTML</span>
             </button>
-            <hr class="border-slate-300 my-3">
+            <hr class="border-gray-200 my-3">
         </div>
 
         <!-- Content Area (Editor/Preview) -->
         <div class="content flex-1 flex flex-col overflow-hidden bg-white">
             <!-- Tabs -->
-            <div class="tabs flex border-b border-slate-300 bg-slate-100 px-2.5 flex-shrink-0">
+            <div class="tabs flex border-b border-gray-200 bg-gray-50 px-2.5 flex-shrink-0">
                 <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium active" data-tab="html">HTML Editor</button>
                 <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium" data-tab="preview">PC Preview</button>
                 <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium" data-tab="mobilePreview">Mobile View</button>
             </div>
             <!-- Viewer Area -->
             <div class="viewer flex-1 relative overflow-hidden">
-                <div id="htmlTab" class="tab-content active absolute inset-0 z-10"> <!-- Ensure active tab has higher z-index -->
+                <div id="htmlTab" class="tab-content active absolute inset-0 z-10"> 
                     <div id="editorContainer" class="w-full h-full"></div>
                 </div>
                 <div id="previewTab" class="tab-content absolute inset-0">
                     <iframe id="previewFrame" title="PC HTML Preview" class="w-full h-full border-none bg-white"></iframe>
                 </div>
-                <div id="mobilePreviewTab" class="tab-content absolute inset-0 bg-slate-200">
+                <div id="mobilePreviewTab" class="tab-content absolute inset-0 bg-gray-100"> <!-- Mobile preview container background -->
                      <div class="mobile-frame-container flex justify-center items-center h-full p-1 sm:p-4 overflow-auto">
                         <div class="mobile-frame flex-shrink-0">
                             <iframe id="mobilePreviewFrame" title="Mobile HTML Preview"></iframe>
@@ -134,15 +133,15 @@
                 </div>
             </div>
              <!-- Error Console Area -->
-            <div id="errorConsole" class="error-console bg-red-50 text-red-700 p-2 px-4 border-t border-slate-300 text-xs font-mono max-h-28 overflow-y-auto hidden flex-shrink-0">
+            <div id="errorConsole" class="error-console bg-red-50 text-red-700 p-2 px-4 border-t border-gray-200 text-xs font-mono max-h-28 overflow-y-auto hidden flex-shrink-0">
                 <pre id="errorOutput"></pre>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <div class="footer py-2 px-5 text-center bg-slate-100 border-t border-slate-300 text-xs text-slate-500 flex-shrink-0">
-        HTML Previewer Pro © 2024. Built with Monaco, Tailwind CSS, and <i class="fas fa-heart text-red-500"></i>.
+    <div class="footer py-2 px-5 text-center bg-gray-50 border-t border-gray-200 text-xs text-slate-500 flex-shrink-0">
+        HTML Previewer © 2024. Built with Monaco, Tailwind CSS, and <i class="fas fa-heart text-red-500"></i>.
     </div>
 
     <script>
@@ -233,7 +232,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Previewer Pro!</title>
+    <title>Welcome to HTML Previewer!</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body { padding: 20px; font-family: sans-serif; }
@@ -270,6 +269,14 @@
                     updateSpecificPreview(previewFrame);
                     updateSpecificPreview(mobilePreviewFrame);
 
+                    // Focus editor if HTML tab is initially active and editor is ready
+                    const htmlEditorTabElement = document.querySelector('.tab[data-tab="html"]');
+                    if (htmlEditorInstance && htmlEditorTabElement && htmlEditorTabElement.classList.contains('active')) {
+                        setTimeout(() => {
+                            htmlEditorInstance.focus();
+                        }, 100); 
+                    }
+
                 } catch (error) {
                      logError(`Failed to initialize Monaco Editor: ${error.message}`);
                      editorContainer.innerHTML = `<div class="p-5 text-red-600">Failed to load code editor. Please check your internet connection and browser console.</div>`;
@@ -289,16 +296,16 @@
 
                     const targetTabName = tab.getAttribute('data-tab');
                     tabs.forEach(t => {
-                        t.classList.remove('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
-                        t.classList.add('text-slate-600', 'border-transparent');
+                        t.classList.remove('active', 'text-blue-600', 'border-blue-600', 'bg-white');
+                        t.classList.add('text-slate-600', 'border-transparent'); // Keep text-slate-600 for inactive tabs for consistency
                     });
                     tabContents.forEach(c => {
                         c.classList.remove('active', 'z-10');
-                        c.classList.add('z-0'); // ensure non-active tabs are behind
+                        c.classList.add('z-0');
                     });
 
 
-                    tab.classList.add('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
+                    tab.classList.add('active', 'text-blue-600', 'border-blue-600', 'bg-white');
                     tab.classList.remove('text-slate-600', 'border-transparent');
 
                     const targetContent = document.getElementById(targetTabName + 'Tab');
@@ -327,21 +334,19 @@
                     if (!htmlEditorInstance) { logError("Editor not ready."); return; }
                     clearErrorConsole();
                     
-                    htmlEditorInstance.setValue(''); // This will trigger onDidChangeModelContent -> debouncedUpdateActivePreviews
+                    htmlEditorInstance.setValue('');
 
                     const htmlEditorTab = document.querySelector('.tab[data-tab="html"]');
                     if (htmlEditorTab) {
                         if (!htmlEditorTab.classList.contains('active')) {
-                            htmlEditorTab.click(); // Tab click logic will handle focusing editor
+                            htmlEditorTab.click(); 
                         } else {
-                            // Already on HTML tab, ensure editor is focused and cursor is at start
                             setTimeout(() => {
                                 htmlEditorInstance.focus();
                                 htmlEditorInstance.setPosition({ lineNumber: 1, column: 1 });
-                            }, 50); // Short delay helps ensure focus after other operations
+                            }, 50); 
                         }
                     } else {
-                        // Fallback if tab somehow not found
                         setTimeout(() => {
                             htmlEditorInstance.focus();
                             htmlEditorInstance.setPosition({ lineNumber: 1, column: 1 });
@@ -496,18 +501,13 @@
                 });
             }
 
-            // Ensure correct tab is active on load and z-index is set
-            const initialActiveTab = document.querySelector('.tab.active');
-            if (initialActiveTab) {
-                 if(!initialActiveTab.classList.contains('z-10')) initialActiveTab.classList.add('z-10');
-                 const initialActiveContent = document.getElementById(initialActiveTab.dataset.tab + 'Tab');
-                 if (initialActiveContent && !initialActiveContent.classList.contains('z-10')) {
-                    initialActiveContent.classList.add('z-10');
-                 }
-            } else if (tabs.length > 0) {
-                tabs[0].click(); 
+            // Initial active tab setup is primarily handled by HTML classes ('active', 'z-10').
+            // The Monaco init callback handles focusing the editor if it's the default.
+            // This fallback ensures *a* tab is active if HTML somehow misses it.
+            const initialActiveTabButton = document.querySelector('.tab.active');
+            if (!initialActiveTabButton && tabs.length > 0) {
+                tabs[0].click(); // Activate the first tab (HTML Editor by default)
             }
-
 
         });
     </script>
