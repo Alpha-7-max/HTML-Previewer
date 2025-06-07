@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Previewer (Monaco Editor)</title>
+    <title>HTML Prewei (Monaco Editor)</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Tailwind CSS -->
@@ -19,7 +19,7 @@
             --border-color: #dee2e6; /* Sidebar border, HR, button active BG */
             --text-primary: #212529; /* Sidebar button hover text */
             --text-secondary: #495057;/* Sidebar button default text/icon */
-            --accent-color: #0d6efd;  /* Sidebar button hover icon, Original title icon color */
+            --accent-color: #0d6efd;  /* Sidebar button hover icon */
             --accent-color-hover: #0b5ed7;
             --error-color: #dc3545;
             --error-bg: #f8d7da;
@@ -29,13 +29,14 @@
             --text-green-500: #10B981; /* For checkmark icon */
             --sidebar-button-border-color: #cbd5e1; /* Tailwind slate-300 */
             --sidebar-button-border-hover-color: #94a3b8; /* Tailwind slate-400 */
+            --logo-color: #38BDF8; /* Tailwind sky-400 for new SVG logo */
         }
 
         body {
             font-family: var(--font-sans);
         }
 
-        /* Sidebar specific styles to match original look */
+        /* Sidebar specific styles */
         .sidebar {
             width: 220px; /* Fixed width for sidebar */
             background-color: var(--bg-secondary);
@@ -47,35 +48,36 @@
             display: flex;
             align-items: center;
             width: 100%;
-            padding: 9px 11px; /* Adjusted padding */
-            margin-bottom: 5px; /* Adjusted margin */
+            padding: 9px 11px; 
+            margin-bottom: 5px; 
             text-align: left;
             background: none;
-            border: 1px solid var(--sidebar-button-border-color); /* Added border */
+            border: 1px solid var(--sidebar-button-border-color); /* Outline border */
             cursor: pointer;
             border-radius: 4px;
             color: var(--text-secondary);
             font-size: 14px;
+            text-decoration: none !important; /* Ensure no underline on button text */
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
         .sidebar button i {
             margin-right: 12px;
             width: 16px;
             text-align: center;
-            color: var(--text-secondary); /* Default icon color */
+            color: var(--text-secondary);
             transition: color 0.2s ease, transform 0.2s ease;
         }
         .sidebar button:hover {
             background-color: var(--bg-tertiary);
             color: var(--text-primary);
-            border-color: var(--sidebar-button-border-hover-color); /* Hover border color */
+            border-color: var(--sidebar-button-border-hover-color);
         }
         .sidebar button:hover i {
-            color: var(--accent-color); /* Icon color on hover */
+            color: var(--accent-color);
         }
         .sidebar button:active {
              background-color: var(--border-color);
-             border-color: var(--accent-color); /* Active border color */
+             border-color: var(--accent-color);
         }
         .sidebar button:disabled,
         .sidebar button[disabled] {
@@ -93,27 +95,24 @@
         .sidebar hr {
             border: none;
             border-top: 1px solid var(--border-color);
-            margin: 12px 0; /* Increased margin for HR with bordered buttons */
+            /* Increased vertical margin and added slight horizontal margin for visual separation */
+            margin: 16px 4px; 
         }
 
-        /* Icon specific color for checkmark */
         .sidebar button i.fa-check {
-            color: var(--text-green-500) !important; /* Override hover states for the checkmark */
-            transform: scale(1.1); /* Slight pop effect for checkmark */
+            color: var(--text-green-500) !important;
+            transform: scale(1.1);
         }
 
-
-        /* Custom CSS for Mobile Preview Frame */
+        /* Mobile Preview Frame */
         .mobile-frame {
-            width: 376px; /* 360px content + 2 * 8px border */
-            aspect-ratio: 376 / 756; /* (360+16) / (740+16) */
-
+            width: 376px; 
+            aspect-ratio: 376 / 756; 
             max-width: 100%;
             max-height: 100%;
             box-sizing: border-box;
-
-            border: 8px solid black; /* Thinner bezels */
-            border-radius: 36px; /* Adjusted border radius */
+            border: 8px solid black; 
+            border-radius: 36px; 
             background-color: black;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
             overflow: hidden;
@@ -142,21 +141,19 @@
         /* Tab scrolling on small screens */
         .tabs-container {
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            -webkit-overflow-scrolling: touch; 
         }
         .tabs-container::-webkit-scrollbar {
-            height: 4px; /* Make scrollbar less obtrusive */
+            height: 4px; 
         }
         .tabs-container::-webkit-scrollbar-thumb {
             background-color: var(--border-color);
             border-radius: 2px;
         }
         .tabs {
-            white-space: nowrap; /* Prevent tabs from wrapping */
-            padding-bottom: 4px; /* Space for scrollbar if it appears */
+            white-space: nowrap; 
+            padding-bottom: 4px; 
         }
-
-
     </style>
 </head>
 <body class="flex flex-col h-screen bg-slate-50 text-slate-800 text-sm overflow-hidden">
@@ -167,17 +164,22 @@
                 <i class="fas fa-bars text-xl"></i>
             </button>
             <div class="title font-semibold text-lg flex items-center">
-                <i class="fas fa-rocket mr-2" style="color: var(--accent-color);"></i>HTML Previewer
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" style="color: var(--logo-color);">
+                  <rect x="3" y="4" width="8" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                  <rect x="13" y="4" width="8" height="16" rx="1" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.5"/>
+                  <line x1="8" y1="7.5" x2="5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="8" y1="10.5" x2="6" y2="10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="8" y1="13.5" x2="5" y2="13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                HTML Prewei
             </div>
         </div>
-        <!-- Future header items can go here -->
     </div>
 
     <!-- Main Content Area -->
     <div class="main flex flex-1 overflow-hidden relative">
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar fixed inset-y-0 left-0 z-30 transform -translate-x-full md:relative md:translate-x-0 overflow-y-auto transition-transform duration-300 ease-in-out md:flex-shrink-0">
-            <!-- Sidebar content remains the same -->
             <button id="clearBtn">
                 <i class="fas fa-eraser"></i>
                 <span>Clear Editor</span>
@@ -211,8 +213,11 @@
             <div class="tabs-container border-b border-slate-300 bg-slate-100 px-2.5 flex-shrink-0">
                 <div class="tabs flex">
                     <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium active flex-shrink-0" data-tab="html">HTML Editor</button>
-                    <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium flex-shrink-0" data-tab="preview">PC Preview</button>
-                    <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium flex-shrink-0" data-tab="mobilePreview">Mobile View</button>
+                    <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium flex-shrink-0" data-tab="preview">
+                        <span class="hidden md:inline">PC Preview</span>
+                        <span class="inline md:hidden">View</span>
+                    </button>
+                    <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium flex-shrink-0 hidden md:flex" data-tab="mobilePreview">Mobile View</button>
                 </div>
             </div>
             <!-- Viewer Area -->
@@ -240,7 +245,7 @@
 
     <!-- Footer -->
     <div class="footer py-2 px-5 text-center bg-slate-100 border-t border-slate-300 text-xs text-slate-500 flex-shrink-0">
-        HTML Previewer © 2024. Built with Monaco, Tailwind CSS, and <i class="fas fa-heart text-red-500"></i>.
+        HTML Prewei © 2024. Built with Monaco, Tailwind CSS, and <i class="fas fa-heart text-red-500"></i>.
     </div>
 
     <script>
@@ -275,11 +280,10 @@
                 return;
             }
 
-            // Sidebar Toggle Logic
             function openMobileSidebar() {
                 sidebar.classList.remove('-translate-x-full');
                 sidebarOverlay.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden', 'md:overflow-auto'); // Prevent body scroll on mobile when sidebar is open
+                document.body.classList.add('overflow-hidden', 'md:overflow-auto');
             }
 
             function closeMobileSidebar() {
@@ -298,7 +302,6 @@
             });
 
             sidebarOverlay.addEventListener('click', closeMobileSidebar);
-
 
             function debounce(func, wait) {
                 let timeout;
@@ -344,7 +347,9 @@
                 if (document.getElementById('previewTab').classList.contains('active')) {
                     updateSpecificPreview(previewFrame);
                 }
-                if (document.getElementById('mobilePreviewTab').classList.contains('active')) {
+                // Only update mobile preview if its tab is visible and active
+                const mobilePreviewTabButton = document.querySelector('.tab[data-tab="mobilePreview"]');
+                if (mobilePreviewTabButton && window.getComputedStyle(mobilePreviewTabButton).display !== 'none' && document.getElementById('mobilePreviewTab').classList.contains('active')) {
                     updateSpecificPreview(mobilePreviewFrame);
                 }
             }
@@ -360,7 +365,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to HTML Previewer!</title>
+    <title>Welcome to HTML Prewei!</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body { padding: 20px; font-family: sans-serif; }
@@ -419,6 +424,10 @@
                          logError("Editor is not yet initialized.");
                          return;
                     }
+                     // If the clicked tab is hidden (e.g., "Mobile View" on small screens), do nothing.
+                    if (window.getComputedStyle(tab).display === 'none') {
+                        return;
+                    }
 
                     const targetTabName = tab.getAttribute('data-tab');
                     tabs.forEach(t => {
@@ -457,43 +466,44 @@
                     } else {
                          logError(`Content element for tab "${targetTabName}" not found!`);
                     }
-                    closeMobileSidebar(); // Close sidebar if open after tab switch
+                    closeMobileSidebar();
                 });
             });
-
-            // Helper for sidebar button actions
-            function handleSidebarAction(actionFn) {
+             function handleSidebarAction(actionFn) {
                 if (!htmlEditorInstance) {
                     logError("Editor not ready.");
                     closeMobileSidebar();
                     return;
                 }
                 actionFn();
-                closeMobileSidebar();
             }
 
 
             if (clearBtn) {
-                clearBtn.addEventListener('click', () => handleSidebarAction(() => {
-                    clearErrorConsole();
-                    htmlEditorInstance.setValue('');
-                    const htmlEditorTab = document.querySelector('.tab[data-tab="html"]');
-                    if (htmlEditorTab) {
-                        if (!htmlEditorTab.classList.contains('active')) {
-                            htmlEditorTab.click(); // This will also call closeMobileSidebar
+                clearBtn.addEventListener('click', () => {
+                    handleSidebarAction(() => {
+                        clearErrorConsole();
+                        htmlEditorInstance.setValue('');
+                        const htmlEditorTab = document.querySelector('.tab[data-tab="html"]');
+                        if (htmlEditorTab) {
+                            if (!htmlEditorTab.classList.contains('active')) {
+                                htmlEditorTab.click(); 
+                            } else {
+                                setTimeout(() => {
+                                    htmlEditorInstance.focus();
+                                    htmlEditorInstance.setPosition({ lineNumber: 1, column: 1 });
+                                }, 50);
+                                closeMobileSidebar(); 
+                            }
                         } else {
                             setTimeout(() => {
                                 htmlEditorInstance.focus();
                                 htmlEditorInstance.setPosition({ lineNumber: 1, column: 1 });
                             }, 50);
+                            closeMobileSidebar();
                         }
-                    } else {
-                        setTimeout(() => {
-                            htmlEditorInstance.focus();
-                            htmlEditorInstance.setPosition({ lineNumber: 1, column: 1 });
-                        }, 50);
-                    }
-                }));
+                    });
+                });
             }
 
             if (copyCodeBtn) {
@@ -502,31 +512,32 @@
                 const originalIconClass = copyBtnIcon.className;
                 const originalBtnText = copyBtnTextSpan.textContent;
 
-                copyCodeBtn.addEventListener('click', () => handleSidebarAction(async () => {
-                    try {
-                        const codeToCopy = htmlEditorInstance.getValue();
-                        await navigator.clipboard.writeText(codeToCopy);
+                copyCodeBtn.addEventListener('click', () => {
+                    handleSidebarAction(async () => {
+                        try {
+                            const codeToCopy = htmlEditorInstance.getValue();
+                            await navigator.clipboard.writeText(codeToCopy);
 
-                        copyBtnIcon.className = 'fas fa-check';
-                        copyBtnTextSpan.textContent = 'Copied!';
+                            copyBtnIcon.className = 'fas fa-check';
+                            copyBtnTextSpan.textContent = 'Copied!';
 
-                        setTimeout(() => {
-                            copyBtnIcon.className = originalIconClass;
-                            copyBtnTextSpan.textContent = originalBtnText;
-                        }, 2000);
-                        // No automatic tab switch, but focus editor if it's already the active tab.
-                        if (document.querySelector('.tab[data-tab="html"].active')) {
-                           htmlEditorInstance.focus();
-                           htmlEditorInstance.setSelection(htmlEditorInstance.getModel().getFullModelRange());
+                            setTimeout(() => {
+                                copyBtnIcon.className = originalIconClass;
+                                copyBtnTextSpan.textContent = originalBtnText;
+                            }, 2000);
+                            if (document.querySelector('.tab[data-tab="html"].active')) {
+                               htmlEditorInstance.focus();
+                               htmlEditorInstance.setSelection(htmlEditorInstance.getModel().getFullModelRange());
+                            }
+                        } catch (err) {
+                            logError(`Error copying code: ${err.message}`);
+                            alert("Failed to copy code. Your browser might not support this or permission was denied. Check console for details.");
+                             copyBtnIcon.className = originalIconClass;
+                             copyBtnTextSpan.textContent = originalBtnText;
                         }
-
-                    } catch (err) {
-                        logError(`Error copying code: ${err.message}`);
-                        alert("Failed to copy code. Your browser might not support this or permission was denied. Check console for details.");
-                         copyBtnIcon.className = originalIconClass;
-                         copyBtnTextSpan.textContent = originalBtnText;
-                    }
-                }));
+                        closeMobileSidebar();
+                    });
+                });
             }
 
             if (pasteCodeBtn) {
@@ -535,47 +546,50 @@
                 const originalPasteIconClass = pasteBtnIcon.className;
                 const originalPasteBtnText = pasteBtnTextSpan.textContent;
 
-                pasteCodeBtn.addEventListener('click', () => handleSidebarAction(async () => {
-                    try {
-                        if (!navigator.clipboard || !navigator.clipboard.readText) {
-                             alert("Pasting from clipboard is not readily supported by your browser or the page is not secure (HTTPS). Please try Ctrl+V or Cmd+V in the editor.");
-                             logError("Clipboard read API not available or permission denied.");
-                             return;
-                        }
-                        const textFromClipboard = await navigator.clipboard.readText();
-                        htmlEditorInstance.setValue(textFromClipboard); // Updates editor, triggers preview refresh
+                pasteCodeBtn.addEventListener('click', () => {
+                    handleSidebarAction(async () => {
+                        try {
+                            if (!navigator.clipboard || !navigator.clipboard.readText) {
+                                 alert("Pasting from clipboard is not readily supported by your browser or the page is not secure (HTTPS). Please try Ctrl+V or Cmd+V in the editor.");
+                                 logError("Clipboard read API not available or permission denied.");
+                                 closeMobileSidebar(); 
+                                 return;
+                            }
+                            const textFromClipboard = await navigator.clipboard.readText();
+                            htmlEditorInstance.setValue(textFromClipboard); 
 
-                        pasteBtnIcon.className = 'fas fa-check'; // CSS rule handles color
-                        pasteBtnTextSpan.textContent = 'Pasted!';
+                            pasteBtnIcon.className = 'fas fa-check'; 
+                            pasteBtnTextSpan.textContent = 'Pasted!';
 
-                        setTimeout(() => {
+                            setTimeout(() => {
+                                pasteBtnIcon.className = originalPasteIconClass;
+                                pasteBtnTextSpan.textContent = originalPasteBtnText;
+                            }, 2000);
+
+                        } catch (err) {
+                            logError(`Error pasting code: ${err.message}`);
+                            if (err.name === 'NotAllowedError' || err.message.toLowerCase().includes('permission')) {
+                                alert("Pasting from clipboard was not allowed. You might need to grant permission in your browser (usually for HTTPS sites), or it's not supported.");
+                            } else {
+                                alert("Failed to paste code. Check the console for more details.");
+                            }
                             pasteBtnIcon.className = originalPasteIconClass;
                             pasteBtnTextSpan.textContent = originalPasteBtnText;
-                        }, 2000);
-
-                    } catch (err) {
-                        logError(`Error pasting code: ${err.message}`);
-                        if (err.name === 'NotAllowedError' || err.message.toLowerCase().includes('permission')) {
-                            alert("Pasting from clipboard was not allowed. You might need to grant permission in your browser (usually for HTTPS sites), or it's not supported.");
-                        } else {
-                            alert("Failed to paste code. Check the console for more details.");
                         }
-                        pasteBtnIcon.className = originalPasteIconClass;
-                        pasteBtnTextSpan.textContent = originalPasteBtnText;
-                    }
-                }));
+                        closeMobileSidebar();
+                    });
+                });
             }
 
             if (importBtn) {
-                importBtn.addEventListener('click', () => handleSidebarAction(() => {
-                    fileInput.click();
-                }));
+                importBtn.addEventListener('click', () => {
+                    handleSidebarAction(() => {
+                        fileInput.click(); 
+                    });
+                });
             }
 
             fileInput.addEventListener('change', (event) => {
-                // This event is not directly from a sidebar button click,
-                // but if the sidebar was open when 'Import' was clicked, it should remain open
-                // or be handled consistently. For now, it won't auto-close sidebar.
                 const file = event.target.files[0];
                 if (file && htmlEditorInstance) {
                     clearErrorConsole();
@@ -584,75 +598,123 @@
                         try {
                             const fileContent = e.target.result;
                             htmlEditorInstance.setValue(fileContent);
-                             // Optionally switch to HTML tab and focus
                             const htmlEditorTab = document.querySelector('.tab[data-tab="html"]');
                             if (htmlEditorTab && !htmlEditorTab.classList.contains('active')) {
-                                htmlEditorTab.click(); // This will close sidebar if it was open
-                            } else if (htmlEditorTab) { // If already active or no tab switch
+                                htmlEditorTab.click(); 
+                            } else {
                                 htmlEditorInstance.focus();
-                                closeMobileSidebar(); // Close if it was open from import click
+                                closeMobileSidebar(); 
                             }
-
-
                         } catch (readError) {
                             logError(`Error processing file content: ${readError.message}`);
                         }
                     };
                     reader.onerror = () => {
                         logError(`Error reading file: ${reader.error.message}`);
+                        closeMobileSidebar();
                     };
                     reader.readAsText(file);
                 } else if (!htmlEditorInstance) {
                      logError("Cannot import file: Editor not initialized.");
+                     closeMobileSidebar();
+                } else {
+                    closeMobileSidebar(); 
                 }
                 event.target.value = null;
             });
 
             if (exportBtn) {
-                exportBtn.addEventListener('click', () => handleSidebarAction(() => {
-                    clearErrorConsole();
-                    try {
-                        const htmlContent = htmlEditorInstance.getValue();
-                        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-                        const url = URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.setAttribute('href', url);
-                        link.setAttribute('download', 'mypage.html');
-                        link.style.display = 'none';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        URL.revokeObjectURL(url);
-                    } catch (exportError) {
-                        logError(`Export failed: ${exportError.message}`);
-                    }
-                }));
+                exportBtn.addEventListener('click', () => {
+                    handleSidebarAction(() => {
+                        clearErrorConsole();
+                        try {
+                            const htmlContent = htmlEditorInstance.getValue();
+                            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.setAttribute('href', url);
+                            link.setAttribute('download', 'mypage.html');
+                            link.style.display = 'none';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(url);
+                        } catch (exportError) {
+                            logError(`Export failed: ${exportError.message}`);
+                        }
+                        closeMobileSidebar();
+                    });
+                });
             }
+            
+            function setInitialActiveTab() {
+                let activeTabButton = document.querySelector('.tab.active');
 
-            const initialActiveTab = document.querySelector('.tab.active');
-            if (initialActiveTab) {
-                 const initialTabName = initialActiveTab.dataset.tab;
-                 const initialContentEl = document.getElementById(initialTabName + 'Tab');
-                 if(initialContentEl){
-                    tabContents.forEach(tc => tc.classList.add('z-0'));
-                    tabContents.forEach(tc => tc.classList.remove('active', 'z-10'));
+                // If current active tab is hidden on mobile, switch to HTML editor
+                // or the first visible tab if HTML editor itself could be hidden (though not in this design)
+                if (activeTabButton && window.getComputedStyle(activeTabButton).display === 'none') {
+                    // Deactivate current hidden active tab
+                    activeTabButton.classList.remove('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
+                    activeTabButton.classList.add('text-slate-600', 'border-transparent');
+                    const activeContent = document.getElementById(activeTabButton.dataset.tab + 'Tab');
+                    if (activeContent) {
+                        activeContent.classList.remove('active', 'z-10');
+                        activeContent.classList.add('z-0');
+                    }
+                    
+                    // Find the first visible tab and activate it (prefer HTML, then View/PC Preview)
+                    let newActiveTab = document.querySelector('.tab[data-tab="html"]');
+                    if (!newActiveTab || window.getComputedStyle(newActiveTab).display === 'none') {
+                         newActiveTab = document.querySelector('.tab[data-tab="preview"]');
+                    }
+                     if (!newActiveTab || window.getComputedStyle(newActiveTab).display === 'none') { // Fallback to any visible tab
+                        newActiveTab = Array.from(tabs).find(t => window.getComputedStyle(t).display !== 'none');
+                    }
+                    activeTabButton = newActiveTab;
 
-                    initialContentEl.classList.add('active', 'z-10');
-                    initialContentEl.classList.remove('z-0');
+                } else if (!activeTabButton && tabs.length > 0) { // No tab is active, set a default
+                     activeTabButton = Array.from(tabs).find(t => window.getComputedStyle(t).display !== 'none') || tabs[0];
+                }
 
+
+                if (activeTabButton) {
+                    // Deactivate all first
                     tabs.forEach(t => {
                          t.classList.remove('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
                          t.classList.add('text-slate-600', 'border-transparent');
                     });
-                    initialActiveTab.classList.add('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
-                    initialActiveTab.classList.remove('text-slate-600', 'border-transparent');
+                    tabContents.forEach(tc => {
+                        tc.classList.remove('active', 'z-10');
+                        tc.classList.add('z-0');
+                    });
 
-                    if (initialTabName === 'preview') updateSpecificPreview(previewFrame);
-                    if (initialTabName === 'mobilePreview') updateSpecificPreview(mobilePreviewFrame);
-                 }
-            } else if (tabs.length > 0) {
-                tabs[0].click();
+                    // Activate the chosen one
+                    activeTabButton.classList.add('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
+                    activeTabButton.classList.remove('text-slate-600', 'border-transparent');
+                    
+                    const activeTabName = activeTabButton.getAttribute('data-tab');
+                    const activeContentEl = document.getElementById(activeTabName + 'Tab');
+                    if (activeContentEl) {
+                        activeContentEl.classList.add('active', 'z-10');
+                        activeContentEl.classList.remove('z-0');
+                        if (activeTabName === 'preview') updateSpecificPreview(previewFrame);
+                        // Check visibility again for mobilePreview before updating
+                        const mobilePreviewTabElement = document.querySelector('.tab[data-tab="mobilePreview"]');
+                        if (activeTabName === 'mobilePreview' && mobilePreviewTabElement && window.getComputedStyle(mobilePreviewTabElement).display !== 'none') {
+                             updateSpecificPreview(mobilePreviewFrame);
+                        }
+                        if (activeTabName === 'html' && htmlEditorInstance) {
+                            setTimeout(() => {
+                                htmlEditorInstance.layout();
+                                // htmlEditorInstance.focus(); // Focus can be aggressive on load
+                            }, 50);
+                        }
+                    }
+                }
             }
+            setInitialActiveTab(); 
+            window.addEventListener('resize', debounce(setInitialActiveTab, 250)); 
+
         });
     </script>
 </body>
