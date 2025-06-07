@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Prewei (Monaco Editor)</title>
+    <title>HTML Studio (Monaco Editor)</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Tailwind CSS -->
@@ -13,33 +13,34 @@
     <style>
         /* Custom CSS - for things Tailwind doesn't easily cover or for overrides */
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa; /* Sidebar BG */
-            --bg-tertiary: #e9ecef;  /* Sidebar button hover BG */
-            --border-color: #dee2e6; /* Sidebar border, HR, button active BG */
-            --text-primary: #212529; /* Sidebar button hover text */
-            --text-secondary: #495057;/* Sidebar button default text/icon */
-            --accent-color: #0d6efd;  /* Sidebar button hover icon */
-            --accent-color-hover: #0b5ed7;
+            --bg-primary: #ffffff; /* White - used for button backgrounds */
+            --bg-secondary: #f8f9fa; 
+            --bg-tertiary: #e9ecef;  /* Sidebar/Tab button hover BG */
+            --border-color: #dee2e6; 
+            --text-primary: #212529; /* Sidebar/Tab button hover text */
+            --text-secondary: #495057;/* Sidebar/Tab button default text/icon, Tab inactive text, Tab icon color */
+            --accent-color: #0d6efd;  /* Sidebar button hover icon, Tab active BG */
+            --accent-color-hover: #0b5ed7; /* Tab active border */
             --error-color: #dc3545;
             --error-bg: #f8d7da;
             --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
             --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --text-green-500: #10B981; /* For checkmark icon */
-            --sidebar-button-border-color: #cbd5e1; /* Tailwind slate-300 */
-            --sidebar-button-border-hover-color: #94a3b8; /* Tailwind slate-400 */
-            --logo-color: #38BDF8; /* Tailwind sky-400 for new SVG logo */
+            --text-green-500: #10B981;
+            --sidebar-button-border-color: #cbd5e1; 
+            --sidebar-button-border-hover-color: #94a3b8; 
+            /* --logo-color: #0D6EFD; -- No longer needed as SVG has its own colors */
+            --tab-active-text-color: #ffffff; 
+            --header-bg-color: #f1f5f9; /* Tailwind slate-100 */
         }
 
         body {
             font-family: var(--font-sans);
         }
 
-        /* Sidebar specific styles */
         .sidebar {
-            width: 220px; /* Fixed width for sidebar */
-            background-color: var(--bg-secondary);
+            width: 220px;
+            background-color: var(--header-bg-color); 
             border-right: 1px solid var(--border-color);
             padding: 15px 10px;
         }
@@ -48,16 +49,16 @@
             display: flex;
             align-items: center;
             width: 100%;
-            padding: 9px 11px; 
-            margin-bottom: 5px; 
+            padding: 9px 11px;
+            margin-bottom: 5px;
             text-align: left;
-            background: none;
-            border: 1px solid var(--sidebar-button-border-color); /* Outline border */
+            background-color: var(--bg-primary); /* White background */
+            border: 1px solid var(--sidebar-button-border-color);
             cursor: pointer;
             border-radius: 4px;
             color: var(--text-secondary);
             font-size: 14px;
-            text-decoration: none !important; /* Ensure no underline on button text */
+            text-decoration: none !important;
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
         .sidebar button i {
@@ -81,78 +82,79 @@
         }
         .sidebar button:disabled,
         .sidebar button[disabled] {
-            opacity: 0.6;
-            cursor: not-allowed;
-            background-color: transparent !important;
-            color: var(--text-secondary) !important;
-            border-color: var(--sidebar-button-border-color) !important;
+            opacity: 0.6; cursor: not-allowed; background-color: var(--bg-primary) !important;
+            color: var(--text-secondary) !important; border-color: var(--sidebar-button-border-color) !important;
         }
         .sidebar button:disabled i,
         .sidebar button[disabled] i {
              color: var(--text-secondary) !important;
         }
-
         .sidebar hr {
-            border: none;
-            border-top: 1px solid var(--border-color);
-            /* Increased vertical margin and added slight horizontal margin for visual separation */
-            margin: 16px 4px; 
+            border: none; border-top: 1px solid var(--border-color); margin: 16px 4px;
         }
-
         .sidebar button i.fa-check {
-            color: var(--text-green-500) !important;
-            transform: scale(1.1);
+            color: var(--text-green-500) !important; transform: scale(1.1);
         }
 
-        /* Mobile Preview Frame */
         .mobile-frame {
-            width: 376px; 
-            aspect-ratio: 376 / 756; 
-            max-width: 100%;
-            max-height: 100%;
-            box-sizing: border-box;
-            border: 8px solid black; 
-            border-radius: 36px; 
+            width: 310px;
+            aspect-ratio: 310 / 620;
+            max-width: 100%; max-height: 100%; box-sizing: border-box;
+            border: 8px solid black; border-radius: 12px; 
             background-color: black;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
-            overflow: hidden;
-            margin: auto;
-            display: flex;
+            overflow: hidden; margin: auto; display: flex;
         }
-
         #mobilePreviewFrame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background-color: white;
+            width: 100%; height: 100%; border: none; background-color: white;
         }
 
         .error-console pre {
-             margin: 0;
-             white-space: pre-wrap;
-             word-break: break-all;
+             margin: 0; white-space: pre-wrap; word-break: break-all;
         }
-
         .sr-only {
             position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
             overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
         }
 
-        /* Tab scrolling on small screens */
         .tabs-container {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch; 
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
         }
-        .tabs-container::-webkit-scrollbar {
-            height: 4px; 
+        .tabs-container::-webkit-scrollbar { height: 4px; }
+        .tabs-container::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 2px; }
+        .tabs { white-space: nowrap; padding-bottom: 4px; }
+
+        .tabs .tab {
+            padding: 6px 12px; margin-right: 6px;
+            border: 1px solid var(--sidebar-button-border-color);
+            background-color: var(--bg-primary); /* White background */
+            color: var(--text-secondary); 
+            border-radius: 4px; font-size: 14px;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            display: inline-flex; align-items: center;
         }
-        .tabs-container::-webkit-scrollbar-thumb {
-            background-color: var(--border-color);
-            border-radius: 2px;
+        .tabs .tab i {
+            color: var(--text-secondary); 
+            transition: none; 
         }
-        .tabs {
-            white-space: nowrap; 
-            padding-bottom: 4px; 
+        .tabs .tab:hover {
+            background-color: var(--bg-tertiary);
+            border-color: var(--sidebar-button-border-hover-color);
+            color: var(--text-primary); 
+        }
+        .tabs .tab:not(.active):hover i { 
+            color: var(--text-secondary);
+        }
+        .tabs .tab.active {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color-hover);
+            color: var(--tab-active-text-color); 
+        }
+        .tabs .tab.active i {
+            color: var(--tab-active-text-color); 
+        }
+        .tabs .tab.active:hover i { 
+             color: var(--tab-active-text-color);
         }
     </style>
 </head>
@@ -160,83 +162,74 @@
     <!-- Header -->
     <div class="header bg-slate-100 text-slate-900 py-3 px-5 border-b border-slate-300 flex justify-between items-center shadow-sm z-20 flex-shrink-0">
         <div class="flex items-center">
-            <button id="sidebarToggleBtn" aria-label="Toggle sidebar" class="md:hidden text-slate-600 hover:text-slate-900 p-2 mr-2 -ml-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 rounded">
+            <button id="sidebarToggleBtn" aria-label="Toggle sidebar" 
+                    class="md:hidden bg-white border border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-900 p-1.5 mr-2 -ml-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 rounded">
                 <i class="fas fa-bars text-xl"></i>
             </button>
             <div class="title font-semibold text-lg flex items-center">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" style="color: var(--logo-color);">
-                  <rect x="3" y="4" width="8" height="16" rx="1" stroke="currentColor" stroke-width="1.5"/>
-                  <rect x="13" y="4" width="8" height="16" rx="1" fill="currentColor" fill-opacity="0.3" stroke="currentColor" stroke-width="1.5"/>
-                  <line x1="8" y1="7.5" x2="5" y2="7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="8" y1="10.5" x2="6" y2="10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="8" y1="13.5" x2="5" y2="13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <!-- New SVG Icon -->
+                <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mr-2 h-7 w-7">
+                    <circle cx="50" cy="50" r="45" fill="#2196F3"/>
+                    <path d="M35,20 Q20,20 20,35 L20,65 Q20,80 35,80"
+                          fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M65,20 Q80,20 80,35 L80,65 Q80,80 65,80"
+                          fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+                    <rect x="30" y="35" width="40" height="30" fill="#333" rx="2"/>
+                    <circle cx="40" cy="50" r="5" fill="#ffffff"/>
+                    <rect x="50" y="45" width="15" height="10" fill="#ffffff" rx="1"/>
                 </svg>
-                HTML Prewei
+                HTML Studio
             </div>
         </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="fixed top-16 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white py-2 px-4 rounded-md shadow-lg text-sm z-50 opacity-0 transition-opacity duration-300 ease-in-out pointer-events-none">
+        Pasted!
     </div>
 
     <!-- Main Content Area -->
     <div class="main flex flex-1 overflow-hidden relative">
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar fixed inset-y-0 left-0 z-30 transform -translate-x-full md:relative md:translate-x-0 overflow-y-auto transition-transform duration-300 ease-in-out md:flex-shrink-0">
-            <button id="clearBtn">
-                <i class="fas fa-eraser"></i>
-                <span>Clear Editor</span>
-            </button>
-            <button id="copyCodeBtn">
-                <i class="fas fa-copy"></i>
-                <span>Copy Code</span>
-            </button>
-            <button id="pasteCodeBtn">
-                <i class="fas fa-paste"></i>
-                <span>Paste Code</span>
-            </button>
+            <button id="clearBtn"><i class="fas fa-eraser"></i><span>Clear Editor</span></button>
+            <button id="copyCodeBtn"><i class="fas fa-copy"></i><span>Copy Code</span></button>
+            <button id="pasteCodeBtn"><i class="fas fa-paste"></i><span>Paste Code</span></button>
             <hr>
-            <button id="importBtn">
-                 <i class="fas fa-upload"></i>
-                <span>Import HTML</span>
-            </button>
-            <input type="file" id="fileInput" accept=".html,.htm" class="sr-only">
-            <button id="exportBtn">
-                <i class="fas fa-download"></i>
-                <span>Download HTML</span>
-            </button>
+            <button id="importBtn"><i class="fas fa-upload"></i><span>Import</span></button>
+            <input type="file" id="fileInput" accept=".txt" class="sr-only">
+            <button id="exportBtn"><i class="fas fa-download"></i><span>Download</span></button>
             <hr>
         </div>
         <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-25 z-20 hidden md:hidden" aria-hidden="true"></div>
 
-
         <!-- Content Area (Editor/Preview) -->
         <div class="content flex-1 flex flex-col overflow-hidden bg-white">
             <!-- Tabs -->
-            <div class="tabs-container border-b border-slate-300 bg-slate-100 px-2.5 flex-shrink-0">
+            <div class="tabs-container border-b border-slate-300 bg-slate-100 px-2.5 pt-2 flex-shrink-0">
                 <div class="tabs flex">
-                    <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium active flex-shrink-0" data-tab="html">HTML Editor</button>
-                    <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium flex-shrink-0" data-tab="preview">
-                        <span class="hidden md:inline">PC Preview</span>
+                    <button class="tab cursor-pointer font-medium flex-shrink-0" data-tab="html">HTML Editor</button>
+                    <button class="tab cursor-pointer font-medium flex-shrink-0 active" data-tab="preview">
+                        <i class="fas fa-play mr-1.5 text-xs"></i>
+                        <span class="hidden md:inline">Desktop View</span>
                         <span class="inline md:hidden">View</span>
                     </button>
-                    <button class="tab py-3 px-4 cursor-pointer bg-transparent border-b-2 border-transparent mr-1.5 mb-[-1px] text-slate-600 hover:text-slate-900 transition-all duration-200 ease-in-out font-medium flex-shrink-0 hidden md:flex" data-tab="mobilePreview">Mobile View</button>
+                    <button class="tab cursor-pointer font-medium flex-shrink-0 hidden md:flex" data-tab="mobilePreview">
+                        <i class="fas fa-play mr-1.5 text-xs"></i>
+                        Mobile View
+                    </button>
                 </div>
             </div>
             <!-- Viewer Area -->
             <div class="viewer flex-1 relative overflow-hidden">
-                <div id="htmlTab" class="tab-content active absolute inset-0 z-10">
-                    <div id="editorContainer" class="w-full h-full"></div>
-                </div>
-                <div id="previewTab" class="tab-content absolute inset-0">
-                    <iframe id="previewFrame" title="PC HTML Preview" class="w-full h-full border-none bg-white"></iframe>
-                </div>
-                <div id="mobilePreviewTab" class="tab-content absolute inset-0 bg-slate-200">
+                <div id="htmlTab" class="tab-content absolute inset-0 z-0"><div id="editorContainer" class="w-full h-full"></div></div>
+                <div id="previewTab" class="tab-content active absolute inset-0 z-10"><iframe id="previewFrame" title="Desktop HTML Preview" class="w-full h-full border-none bg-white"></iframe></div>
+                <div id="mobilePreviewTab" class="tab-content absolute inset-0 bg-slate-200 z-0">
                      <div class="mobile-frame-container flex justify-center items-center h-full p-1 sm:p-4 overflow-auto">
-                        <div class="mobile-frame flex-shrink-0">
-                            <iframe id="mobilePreviewFrame" title="Mobile HTML Preview"></iframe>
-                        </div>
+                        <div class="mobile-frame flex-shrink-0"><iframe id="mobilePreviewFrame" title="Mobile HTML Preview"></iframe></div>
                     </div>
                 </div>
             </div>
-             <!-- Error Console Area -->
             <div id="errorConsole" class="error-console bg-red-50 text-red-700 p-2 px-4 border-t border-slate-300 text-xs font-mono max-h-28 overflow-y-auto hidden flex-shrink-0">
                 <pre id="errorOutput"></pre>
             </div>
@@ -245,17 +238,15 @@
 
     <!-- Footer -->
     <div class="footer py-2 px-5 text-center bg-slate-100 border-t border-slate-300 text-xs text-slate-500 flex-shrink-0">
-        HTML Prewei © 2024. Built with Monaco, Tailwind CSS, and <i class="fas fa-heart text-red-500"></i>.
+        HTML Prewei © 2024. Built with You. <i class="fas fa-heart text-red-500"></i>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let htmlEditorInstance = null;
-
             const sidebar = document.getElementById('sidebar');
             const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
             const editorContainer = document.getElementById('editorContainer');
@@ -264,97 +255,77 @@
             const fileInput = document.getElementById('fileInput');
             const errorConsole = document.getElementById('errorConsole');
             const errorOutput = document.getElementById('errorOutput');
-
             const clearBtn = document.getElementById('clearBtn');
             const importBtn = document.getElementById('importBtn');
             const exportBtn = document.getElementById('exportBtn');
             const copyCodeBtn = document.getElementById('copyCodeBtn');
             const pasteCodeBtn = document.getElementById('pasteCodeBtn');
+            const toastNotification = document.getElementById('toastNotification');
 
-            if (!editorContainer || !previewFrame || !mobilePreviewFrame || !fileInput || tabs.length === 0 || tabContents.length === 0 || !errorConsole || !errorOutput || !sidebar || !sidebarToggleBtn || !sidebarOverlay) {
+            if (!editorContainer || !previewFrame || !mobilePreviewFrame || !fileInput || !errorConsole || !errorOutput || !sidebar || !sidebarToggleBtn || !sidebarOverlay || !toastNotification) {
                 console.error("Essential UI elements not found! Check HTML IDs.");
-                const bodyEl = document.querySelector('body');
-                if (bodyEl) {
-                     bodyEl.innerHTML = '<div style="padding: 20px; font-family: sans-serif; color: red;"><h1>Initialization Error</h1><p>Could not find essential page elements. The application cannot start. Please check the console.</p></div>';
-                }
+                document.body.innerHTML = '<div style="padding:20px;font-family:sans-serif;color:red;"><h1>Init Error</h1><p>Cannot start.</p></div>';
                 return;
             }
 
             function openMobileSidebar() {
-                sidebar.classList.remove('-translate-x-full');
-                sidebarOverlay.classList.remove('hidden');
+                sidebar.classList.remove('-translate-x-full'); sidebarOverlay.classList.remove('hidden');
                 document.body.classList.add('overflow-hidden', 'md:overflow-auto');
             }
-
             function closeMobileSidebar() {
-                sidebar.classList.add('-translate-x-full');
-                sidebarOverlay.classList.add('hidden');
+                sidebar.classList.add('-translate-x-full'); sidebarOverlay.classList.add('hidden');
                 document.body.classList.remove('overflow-hidden', 'md:overflow-auto');
             }
-
             sidebarToggleBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (sidebar.classList.contains('-translate-x-full')) {
-                    openMobileSidebar();
-                } else {
-                    closeMobileSidebar();
-                }
+                if (sidebar.classList.contains('-translate-x-full')) openMobileSidebar(); else closeMobileSidebar();
             });
-
             sidebarOverlay.addEventListener('click', closeMobileSidebar);
 
             function debounce(func, wait) {
                 let timeout;
                 return function executedFunction(...args) {
-                    const later = () => {
-                        clearTimeout(timeout);
-                        func.apply(this, args);
-                    };
-                    clearTimeout(timeout);
-                    timeout = setTimeout(later, wait);
+                    const later = () => { clearTimeout(timeout); func.apply(this, args); };
+                    clearTimeout(timeout); timeout = setTimeout(later, wait);
                 };
             }
 
             function logError(message, isHtmlError = false) {
                 console.error(message);
-                const prefix = isHtmlError ? 'Preview Error' : 'App Info/Error';
-                errorOutput.textContent += `[${new Date().toLocaleTimeString()}] ${prefix}: ${message}\n`;
-                errorConsole.classList.remove('hidden');
-                errorConsole.classList.add('block');
-                errorConsole.scrollTop = errorConsole.scrollHeight;
+                errorOutput.textContent += `[${new Date().toLocaleTimeString()}] ${isHtmlError ?'Preview':'App'}: ${message}\n`;
+                errorConsole.classList.remove('hidden'); errorConsole.scrollTop = errorConsole.scrollHeight;
             }
-
             function clearErrorConsole() {
-                 errorOutput.textContent = '';
-                 errorConsole.classList.add('hidden');
-                 errorConsole.classList.remove('block');
+                 errorOutput.textContent = ''; errorConsole.classList.add('hidden');
             }
 
             function updateSpecificPreview(targetFrameElement) {
-                 if (!htmlEditorInstance || !targetFrameElement) return;
+                if (!htmlEditorInstance || !targetFrameElement) return;
                 try {
-                    const html = htmlEditorInstance.getValue();
-                    targetFrameElement.srcdoc = html;
+                    targetFrameElement.srcdoc = htmlEditorInstance.getValue();
                 } catch (e) {
-                    logError(`Failed to render preview: ${e.message}`, true);
-                     try {
-                         targetFrameElement.srcdoc = `<html><body style="font-family: sans-serif; color: red; padding: 20px;"><h1>Preview Error</h1><p>Could not render HTML. See error console or browser console.</p><pre>${e.message}</pre></body></html>`;
-                     } catch (fallbackError) { /* Ignore */ }
+                    logError(`Preview failed: ${e.message}`, true);
+                    try { targetFrameElement.srcdoc = `<html><body style="font-family:sans-serif;color:red;padding:20px;"><h1>Err</h1><pre>${e.message}</pre></body></html>`; } catch (fe) {}
                 }
             }
-
             function updateActivePreviewPanes() {
-                if (document.getElementById('previewTab').classList.contains('active')) {
-                    updateSpecificPreview(previewFrame);
-                }
-                // Only update mobile preview if its tab is visible and active
-                const mobilePreviewTabButton = document.querySelector('.tab[data-tab="mobilePreview"]');
-                if (mobilePreviewTabButton && window.getComputedStyle(mobilePreviewTabButton).display !== 'none' && document.getElementById('mobilePreviewTab').classList.contains('active')) {
+                if (document.getElementById('previewTab').classList.contains('active')) updateSpecificPreview(previewFrame);
+                const mobPrevTabBtn = document.querySelector('.tab[data-tab="mobilePreview"]');
+                if (mobPrevTabBtn && getComputedStyle(mobPrevTabBtn).display !== 'none' && document.getElementById('mobilePreviewTab').classList.contains('active')) {
                     updateSpecificPreview(mobilePreviewFrame);
                 }
             }
-
             const debouncedUpdateActivePreviews = debounce(updateActivePreviewPanes, 400);
+
+            function showToast(message) {
+                toastNotification.textContent = message;
+                toastNotification.classList.remove('opacity-0');
+                toastNotification.classList.add('opacity-100');
+                setTimeout(() => {
+                    toastNotification.classList.remove('opacity-100');
+                    toastNotification.classList.add('opacity-0');
+                }, 2500); 
+            }
 
             require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' }});
             require(['vs/editor/editor.main'], function () {
@@ -365,356 +336,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to HTML Prewei!</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Welcome!</title>
     <style>
-        body { padding: 20px; font-family: sans-serif; }
-        h1 { color: #1D4ED8; /* text-blue-700 */ }
-        p { margin-top: 10px; }
-        .container { max-width: 600px; margin: auto; text-align: center; }
-        .button { background-color: #3B82F6; /* bg-blue-500 */ color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block; margin-top: 15px; }
-        .long-content { height: 1200px; background: linear-gradient(to bottom, #f0f0f0, #c0c0c0); margin-top: 20px; padding: 10px; border: 1px solid #ccc;}
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;    
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            overflow: hidden; 
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            color: #0d6efd; 
+            font-size: 2.5em; 
+            margin-bottom: 20px; 
+            font-weight: bold;
+        }
+        #clickMeButton {
+            background-color: #0d6efd; 
+            color: white;
+            border: none;
+            padding: 12px 28px; 
+            border-radius: 8px;  
+            font-size: 1em;   
+            font-family: inherit; 
+            cursor: pointer;
+            transition: transform 0.1s ease-out, box-shadow 0.15s ease-out, background-color 0.15s ease-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        }
+        #clickMeButton:hover {
+            background-color: #0b5ed7; 
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px); 
+        }
+        #clickMeButton.clicked {
+            transform: scale(0.95) translateY(0px); 
+            background-color: #0a58ca; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+        }
+        #celebration-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1000; overflow: hidden;     
+        }
+        .confetti {
+            position: absolute; opacity: 0; 
+            animation-name: fallAndSway;
+            animation-timing-function: linear; 
+            animation-fill-mode: forwards;    
+            animation-duration: var(--fall-duration); 
+            animation-delay: var(--animation-delay);  
+            transform-origin: center center;
+        }
+        @keyframes fallAndSway {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px) translateX(var(--initial-x-offset)) rotate(var(--initial-rotation));
+            }
+            15% { opacity: 1; }
+            100% {
+                opacity: 0.8; 
+                transform: translateY(110vh) translateX(var(--final-x-sway)) rotate(var(--final-rotation));
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body>
     <div class="container">
-        <h1 class="text-3xl font-bold">Hello from Monaco Editor!</h1>
-        <p class="text-gray-700">Edit this HTML code. Tailwind CSS is available in this preview if you include the CDN link.</p>
-        <a href="#" class="button hover:bg-blue-600">Click Me!</a>
-        <div class="long-content">
-            <p>This is some long content to demonstrate scrolling within the mobile preview's iframe.</p>
-            <p>Scroll down to see more...</p>
-            <p style="margin-top: 500px;">More content further down...</p>
-            <p style="margin-top: 500px;">Even more content at the bottom.</p>
-        </div>
+        <h1>Welcome!</h1>
+        <button id="clickMeButton">Click me</button>
     </div>
+    <div id="celebration-container"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('clickMeButton');
+            const celebrationContainer = document.getElementById('celebration-container');
+            button.addEventListener('click', () => {
+                button.classList.add('clicked');
+                setTimeout(() => { button.classList.remove('clicked'); }, 200);
+                startCelebration();
+            });
+            function startCelebration() {
+                const confettiCount = 100; 
+                const colors = ['#FFD700', '#FF69B4', '#00FFFF', '#ADFF2F', '#FF4500', '#9370DB'];
+                for (let i = 0; i < confettiCount; i++) { createConfettiPiece(colors); }
+            }
+            function createConfettiPiece(colors) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                let size = Math.random() * 6 + 5; 
+                confetti.style.backgroundColor = randomColor;
+                confetti.style.width = \`\${size}px\`;
+                if (Math.random() < 0.25) { 
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.height = \`\${size}px\`; 
+                } else { 
+                    confetti.style.height = \`\${size * (Math.random() * 0.6 + 1.0)}px\`;
+                    if (Math.random() < 0.15) { confetti.style.width = \`\${Math.max(2, size / 3.5)}px\`; }
+                }
+                let horizontalPositionPercent = (Math.random() < 0.5) ? (Math.random() * 30) : (70 + Math.random() * 30);
+                confetti.style.left = \`\${horizontalPositionPercent}vw\`;
+                const fallDuration = Math.random() * 2.5 + 3.0; 
+                let swayMagnitude = Math.random() * 100 + 50; 
+                let swayDirection = (horizontalPositionPercent < 50) ? 1 : -1; 
+                if (Math.random() < 0.25) swayDirection *= -0.3; 
+                const finalSway = swayDirection * swayMagnitude;
+                const initialRotation = Math.random() * 360; 
+                const rotationChange = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 600 + 300); 
+                const animationDelay = Math.random() * 0.8; 
+                confetti.style.setProperty('--fall-duration', \`\${fallDuration}s\`);
+                confetti.style.setProperty('--animation-delay', \`\${animationDelay}s\`);
+                confetti.style.setProperty('--initial-x-offset', '0px'); 
+                confetti.style.setProperty('--final-x-sway', \`\${finalSway}px\`); 
+                confetti.style.setProperty('--initial-rotation', \`\${initialRotation}deg\`);
+                confetti.style.setProperty('--final-rotation', \`\${initialRotation + rotationChange}deg\`);
+                celebrationContainer.appendChild(confetti);
+                confetti.addEventListener('animationend', () => { confetti.remove(); });
+            }
+        });
+    <\/script>
 </body>
 </html>`,
-                        language: 'html',
-                        theme: 'vs-light',
-                        automaticLayout: true,
-                        lineNumbers: 'on',
-                        wordWrap: 'on',
-                        minimap: { enabled: true, scale: 2, showSlider: 'mouseover' },
-                        scrollbar: {
-                             verticalScrollbarSize: 10,
-                             horizontalScrollbarSize: 10,
-                             arrowSize: 12
-                        },
-                        fontSize: 14,
-                        padding: { top: 10, bottom: 10 }
+                        language: 'html', theme: 'vs-light', automaticLayout: true, lineNumbers: 'on',
+                        wordWrap: 'on', minimap: { enabled: true, scale: 2, showSlider: 'mouseover' },
+                        scrollbar: { verticalScrollbarSize:10, horizontalScrollbarSize:10, arrowSize:12 },
+                        fontSize: 14, padding: { top: 10, bottom: 10 }
                     });
-
                     htmlEditorInstance.onDidChangeModelContent(debouncedUpdateActivePreviews);
-                    updateActivePreviewPanes();
-
-
+                    setInitialActiveTab();
                 } catch (error) {
-                     logError(`Failed to initialize Monaco Editor: ${error.message}`);
-                     editorContainer.innerHTML = `<div class="p-5 text-red-600">Failed to load code editor. Please check your internet connection and browser console.</div>`;
-                     [clearBtn, copyCodeBtn, pasteCodeBtn, importBtn, exportBtn].forEach(btn => {
-                         if(btn) btn.disabled = true;
-                     });
+                     logError(`Monaco init failed: ${error.message}`);
+                     editorContainer.innerHTML = `<div class="p-5 text-red-600">Editor load fail.</div>`;
+                     [clearBtn,copyCodeBtn,pasteCodeBtn,importBtn,exportBtn].forEach(b => b && (b.disabled=true));
                 }
             });
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    if (!htmlEditorInstance && tab.getAttribute('data-tab') === 'html') {
-                         logError("Editor is not yet initialized.");
-                         return;
-                    }
-                     // If the clicked tab is hidden (e.g., "Mobile View" on small screens), do nothing.
-                    if (window.getComputedStyle(tab).display === 'none') {
-                        return;
-                    }
+                    if (!htmlEditorInstance && tab.dataset.tab === 'html') { logError("Editor not init."); return; }
+                    if (getComputedStyle(tab).display === 'none') return;
 
-                    const targetTabName = tab.getAttribute('data-tab');
-                    tabs.forEach(t => {
-                        t.classList.remove('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
-                        t.classList.add('text-slate-600', 'border-transparent');
-                    });
-                    tabContents.forEach(c => {
-                        c.classList.remove('active', 'z-10');
-                        c.classList.add('z-0');
-                    });
-
-
-                    tab.classList.add('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
-                    tab.classList.remove('text-slate-600', 'border-transparent');
-
+                    const targetTabName = tab.dataset.tab;
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => { c.classList.remove('active','z-10'); c.classList.add('z-0'); });
+                    tab.classList.add('active');
                     const targetContent = document.getElementById(targetTabName + 'Tab');
                     if (targetContent) {
-                        targetContent.classList.add('active', 'z-10');
-                        targetContent.classList.remove('z-0');
-
-
-                         if (targetTabName === 'preview') {
-                             clearErrorConsole();
-                             updateSpecificPreview(previewFrame);
-                         } else if (targetTabName === 'mobilePreview') {
-                             clearErrorConsole();
-                             updateSpecificPreview(mobilePreviewFrame);
-                         } else if (targetTabName === 'html' && htmlEditorInstance) {
-                             setTimeout(() => {
-                                if (htmlEditorInstance) {
-                                    htmlEditorInstance.layout();
-                                    htmlEditorInstance.focus();
-                                }
-                            }, 50);
+                        targetContent.classList.add('active','z-10'); targetContent.classList.remove('z-0');
+                        if (targetTabName === 'preview') { clearErrorConsole(); updateSpecificPreview(previewFrame); }
+                        else if (targetTabName === 'mobilePreview') { clearErrorConsole(); updateSpecificPreview(mobilePreviewFrame); }
+                        else if (targetTabName === 'html' && htmlEditorInstance) {
+                             setTimeout(() => { if (htmlEditorInstance) { htmlEditorInstance.layout(); htmlEditorInstance.focus(); } }, 50);
                         }
-                    } else {
-                         logError(`Content element for tab "${targetTabName}" not found!`);
-                    }
+                    } else { logError(`Tab content "${targetTabName}" not found!`); }
                     closeMobileSidebar();
                 });
             });
-             function handleSidebarAction(actionFn) {
-                if (!htmlEditorInstance) {
-                    logError("Editor not ready.");
-                    closeMobileSidebar();
-                    return;
-                }
+
+            function handleSidebarAction(actionFn) {
+                if (!htmlEditorInstance) { logError("Editor not ready."); closeMobileSidebar(); return; }
                 actionFn();
             }
+            if(clearBtn) clearBtn.addEventListener('click', () => handleSidebarAction(() => {
+                clearErrorConsole(); htmlEditorInstance.setValue('');
+                const htmlTab = document.querySelector('.tab[data-tab="html"]');
+                if (htmlTab && !htmlTab.classList.contains('active')) htmlTab.click();
+                else { setTimeout(() => { htmlEditorInstance.focus(); htmlEditorInstance.setPosition({lineNumber:1,column:1});}, 50); closeMobileSidebar(); }
+            }));
 
-
-            if (clearBtn) {
-                clearBtn.addEventListener('click', () => {
-                    handleSidebarAction(() => {
-                        clearErrorConsole();
-                        htmlEditorInstance.setValue('');
-                        const htmlEditorTab = document.querySelector('.tab[data-tab="html"]');
-                        if (htmlEditorTab) {
-                            if (!htmlEditorTab.classList.contains('active')) {
-                                htmlEditorTab.click(); 
-                            } else {
-                                setTimeout(() => {
-                                    htmlEditorInstance.focus();
-                                    htmlEditorInstance.setPosition({ lineNumber: 1, column: 1 });
-                                }, 50);
-                                closeMobileSidebar(); 
-                            }
+            if(copyCodeBtn) copyCodeBtn.addEventListener('click', () => handleSidebarAction(async () => {
+                const icon = copyCodeBtn.querySelector('i'), span = copyCodeBtn.querySelector('span');
+                const origIconCls = icon.className, origSpanTxt = span.textContent;
+                try {
+                    await navigator.clipboard.writeText(htmlEditorInstance.getValue());
+                    icon.className = 'fas fa-check'; span.textContent = 'Copied!';
+                    const htmlEditorTab = document.querySelector('.tab[data-tab="html"]');
+                    if (htmlEditorTab) {
+                        if (!htmlEditorTab.classList.contains('active')) {
+                            htmlEditorTab.click(); 
+                            setTimeout(() => { if (htmlEditorInstance) htmlEditorInstance.setSelection(htmlEditorInstance.getModel().getFullModelRange()); }, 100);
                         } else {
-                            setTimeout(() => {
-                                htmlEditorInstance.focus();
-                                htmlEditorInstance.setPosition({ lineNumber: 1, column: 1 });
-                            }, 50);
-                            closeMobileSidebar();
+                            htmlEditorInstance.focus(); htmlEditorInstance.setSelection(htmlEditorInstance.getModel().getFullModelRange());
                         }
-                    });
-                });
-            }
+                    }
+                    setTimeout(() => { icon.className = origIconCls; span.textContent = origSpanTxt; }, 2000);
+                } catch (err) { 
+                    logError(`Copy failed: ${err.message}`); alert("Copy failed. See console."); 
+                    icon.className = origIconCls; span.textContent = origSpanTxt; 
+                }
+                closeMobileSidebar();
+            }));
 
-            if (copyCodeBtn) {
-                const copyBtnIcon = copyCodeBtn.querySelector('i');
-                const copyBtnTextSpan = copyCodeBtn.querySelector('span');
-                const originalIconClass = copyBtnIcon.className;
-                const originalBtnText = copyBtnTextSpan.textContent;
+            if(pasteCodeBtn) pasteCodeBtn.addEventListener('click', () => handleSidebarAction(async () => {
+                const icon=pasteCodeBtn.querySelector('i'), span=pasteCodeBtn.querySelector('span');
+                const origIconCls=icon.className, origSpanTxt=span.textContent;
+                try {
+                    if (!navigator.clipboard || !navigator.clipboard.readText) { 
+                        alert("Paste not supported/secure. Use Ctrl+V in editor."); logError("Clipboard API denied."); 
+                        closeMobileSidebar(); return; 
+                    }
+                    htmlEditorInstance.setValue(await navigator.clipboard.readText());
+                    showToast("Pasted!"); 
+                    icon.className = 'fas fa-check'; span.textContent = 'Pasted!';
+                    setTimeout(() => { icon.className = origIconCls; span.textContent = origSpanTxt; }, 2000);
+                } catch (err) {
+                    logError(`Paste failed: ${err.message}`);
+                    alert(err.name === 'NotAllowedError' ? "Paste permission denied." : "Paste failed. See console.");
+                    icon.className = origIconCls; span.textContent = origSpanTxt;
+                }
+                closeMobileSidebar();
+            }));
 
-                copyCodeBtn.addEventListener('click', () => {
-                    handleSidebarAction(async () => {
-                        try {
-                            const codeToCopy = htmlEditorInstance.getValue();
-                            await navigator.clipboard.writeText(codeToCopy);
-
-                            copyBtnIcon.className = 'fas fa-check';
-                            copyBtnTextSpan.textContent = 'Copied!';
-
-                            setTimeout(() => {
-                                copyBtnIcon.className = originalIconClass;
-                                copyBtnTextSpan.textContent = originalBtnText;
-                            }, 2000);
-                            if (document.querySelector('.tab[data-tab="html"].active')) {
-                               htmlEditorInstance.focus();
-                               htmlEditorInstance.setSelection(htmlEditorInstance.getModel().getFullModelRange());
-                            }
-                        } catch (err) {
-                            logError(`Error copying code: ${err.message}`);
-                            alert("Failed to copy code. Your browser might not support this or permission was denied. Check console for details.");
-                             copyBtnIcon.className = originalIconClass;
-                             copyBtnTextSpan.textContent = originalBtnText;
-                        }
-                        closeMobileSidebar();
-                    });
-                });
-            }
-
-            if (pasteCodeBtn) {
-                const pasteBtnIcon = pasteCodeBtn.querySelector('i');
-                const pasteBtnTextSpan = pasteCodeBtn.querySelector('span');
-                const originalPasteIconClass = pasteBtnIcon.className;
-                const originalPasteBtnText = pasteBtnTextSpan.textContent;
-
-                pasteCodeBtn.addEventListener('click', () => {
-                    handleSidebarAction(async () => {
-                        try {
-                            if (!navigator.clipboard || !navigator.clipboard.readText) {
-                                 alert("Pasting from clipboard is not readily supported by your browser or the page is not secure (HTTPS). Please try Ctrl+V or Cmd+V in the editor.");
-                                 logError("Clipboard read API not available or permission denied.");
-                                 closeMobileSidebar(); 
-                                 return;
-                            }
-                            const textFromClipboard = await navigator.clipboard.readText();
-                            htmlEditorInstance.setValue(textFromClipboard); 
-
-                            pasteBtnIcon.className = 'fas fa-check'; 
-                            pasteBtnTextSpan.textContent = 'Pasted!';
-
-                            setTimeout(() => {
-                                pasteBtnIcon.className = originalPasteIconClass;
-                                pasteBtnTextSpan.textContent = originalPasteBtnText;
-                            }, 2000);
-
-                        } catch (err) {
-                            logError(`Error pasting code: ${err.message}`);
-                            if (err.name === 'NotAllowedError' || err.message.toLowerCase().includes('permission')) {
-                                alert("Pasting from clipboard was not allowed. You might need to grant permission in your browser (usually for HTTPS sites), or it's not supported.");
-                            } else {
-                                alert("Failed to paste code. Check the console for more details.");
-                            }
-                            pasteBtnIcon.className = originalPasteIconClass;
-                            pasteBtnTextSpan.textContent = originalPasteBtnText;
-                        }
-                        closeMobileSidebar();
-                    });
-                });
-            }
-
-            if (importBtn) {
-                importBtn.addEventListener('click', () => {
-                    handleSidebarAction(() => {
-                        fileInput.click(); 
-                    });
-                });
-            }
-
+            if(importBtn) importBtn.addEventListener('click', () => handleSidebarAction(() => fileInput.click()));
             fileInput.addEventListener('change', (event) => {
                 const file = event.target.files[0];
                 if (file && htmlEditorInstance) {
-                    clearErrorConsole();
-                    const reader = new FileReader();
+                    clearErrorConsole(); const reader = new FileReader();
                     reader.onload = (e) => {
                         try {
-                            const fileContent = e.target.result;
-                            htmlEditorInstance.setValue(fileContent);
-                            const htmlEditorTab = document.querySelector('.tab[data-tab="html"]');
-                            if (htmlEditorTab && !htmlEditorTab.classList.contains('active')) {
-                                htmlEditorTab.click(); 
-                            } else {
-                                htmlEditorInstance.focus();
-                                closeMobileSidebar(); 
-                            }
-                        } catch (readError) {
-                            logError(`Error processing file content: ${readError.message}`);
-                        }
+                            htmlEditorInstance.setValue(e.target.result);
+                            const htmlTab = document.querySelector('.tab[data-tab="html"]');
+                            if (htmlTab && !htmlTab.classList.contains('active')) htmlTab.click();
+                            else { htmlEditorInstance.focus(); closeMobileSidebar(); }
+                        } catch (readErr) { logError(`File process error: ${readErr.message}`); }
                     };
-                    reader.onerror = () => {
-                        logError(`Error reading file: ${reader.error.message}`);
-                        closeMobileSidebar();
-                    };
+                    reader.onerror = () => { logError(`File read error: ${reader.error.message}`); closeMobileSidebar(); };
                     reader.readAsText(file);
-                } else if (!htmlEditorInstance) {
-                     logError("Cannot import file: Editor not initialized.");
-                     closeMobileSidebar();
-                } else {
-                    closeMobileSidebar(); 
-                }
+                } else if (!htmlEditorInstance) { logError("Editor not init for import."); closeMobileSidebar(); }
+                else { closeMobileSidebar(); }
                 event.target.value = null;
             });
+            if(exportBtn) exportBtn.addEventListener('click', () => handleSidebarAction(() => {
+                clearErrorConsole();
+                try {
+                    const blob = new Blob([htmlEditorInstance.getValue()], {type:'text/html;charset=utf-8'});
+                    const url = URL.createObjectURL(blob), link = document.createElement('a');
+                    link.href=url; link.download='mypage.html'; document.body.appendChild(link);
+                    link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
+                } catch (exErr) { logError(`Export failed: ${exErr.message}`); }
+                closeMobileSidebar();
+            }));
 
-            if (exportBtn) {
-                exportBtn.addEventListener('click', () => {
-                    handleSidebarAction(() => {
-                        clearErrorConsole();
-                        try {
-                            const htmlContent = htmlEditorInstance.getValue();
-                            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-                            const url = URL.createObjectURL(blob);
-                            const link = document.createElement('a');
-                            link.setAttribute('href', url);
-                            link.setAttribute('download', 'mypage.html');
-                            link.style.display = 'none';
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                            URL.revokeObjectURL(url);
-                        } catch (exportError) {
-                            logError(`Export failed: ${exportError.message}`);
-                        }
-                        closeMobileSidebar();
-                    });
-                });
-            }
-            
             function setInitialActiveTab() {
                 let activeTabButton = document.querySelector('.tab.active');
-
-                // If current active tab is hidden on mobile, switch to HTML editor
-                // or the first visible tab if HTML editor itself could be hidden (though not in this design)
-                if (activeTabButton && window.getComputedStyle(activeTabButton).display === 'none') {
-                    // Deactivate current hidden active tab
-                    activeTabButton.classList.remove('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
-                    activeTabButton.classList.add('text-slate-600', 'border-transparent');
-                    const activeContent = document.getElementById(activeTabButton.dataset.tab + 'Tab');
-                    if (activeContent) {
-                        activeContent.classList.remove('active', 'z-10');
-                        activeContent.classList.add('z-0');
+                if (!activeTabButton || getComputedStyle(activeTabButton).display === 'none') {
+                    if(activeTabButton) {
+                        activeTabButton.classList.remove('active');
+                        const oldContent = document.getElementById(activeTabButton.dataset.tab + 'Tab');
+                        if(oldContent) { oldContent.classList.remove('active','z-10'); oldContent.classList.add('z-0'); }
                     }
-                    
-                    // Find the first visible tab and activate it (prefer HTML, then View/PC Preview)
-                    let newActiveTab = document.querySelector('.tab[data-tab="html"]');
-                    if (!newActiveTab || window.getComputedStyle(newActiveTab).display === 'none') {
-                         newActiveTab = document.querySelector('.tab[data-tab="preview"]');
+                    activeTabButton = document.querySelector('.tab[data-tab="preview"]'); 
+                    if (!activeTabButton || getComputedStyle(activeTabButton).display === 'none') {
+                        activeTabButton = document.querySelector('.tab[data-tab="html"]'); 
                     }
-                     if (!newActiveTab || window.getComputedStyle(newActiveTab).display === 'none') { // Fallback to any visible tab
-                        newActiveTab = Array.from(tabs).find(t => window.getComputedStyle(t).display !== 'none');
+                    if (!activeTabButton || getComputedStyle(activeTabButton).display === 'none') {
+                        activeTabButton = Array.from(tabs).find(t => getComputedStyle(t).display !== 'none'); 
                     }
-                    activeTabButton = newActiveTab;
-
-                } else if (!activeTabButton && tabs.length > 0) { // No tab is active, set a default
-                     activeTabButton = Array.from(tabs).find(t => window.getComputedStyle(t).display !== 'none') || tabs[0];
                 }
 
-
                 if (activeTabButton) {
-                    // Deactivate all first
-                    tabs.forEach(t => {
-                         t.classList.remove('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
-                         t.classList.add('text-slate-600', 'border-transparent');
-                    });
-                    tabContents.forEach(tc => {
-                        tc.classList.remove('active', 'z-10');
-                        tc.classList.add('z-0');
-                    });
-
-                    // Activate the chosen one
-                    activeTabButton.classList.add('active', 'text-blue-600', 'border-blue-600', 'bg-white', 'z-10');
-                    activeTabButton.classList.remove('text-slate-600', 'border-transparent');
-                    
-                    const activeTabName = activeTabButton.getAttribute('data-tab');
-                    const activeContentEl = document.getElementById(activeTabName + 'Tab');
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(tc => { tc.classList.remove('active','z-10'); tc.classList.add('z-0'); });
+                    activeTabButton.classList.add('active');
+                    const activeContentEl = document.getElementById(activeTabButton.dataset.tab + 'Tab');
                     if (activeContentEl) {
-                        activeContentEl.classList.add('active', 'z-10');
-                        activeContentEl.classList.remove('z-0');
+                        activeContentEl.classList.add('active','z-10'); activeContentEl.classList.remove('z-0');
+                        const activeTabName = activeTabButton.dataset.tab;
                         if (activeTabName === 'preview') updateSpecificPreview(previewFrame);
-                        // Check visibility again for mobilePreview before updating
-                        const mobilePreviewTabElement = document.querySelector('.tab[data-tab="mobilePreview"]');
-                        if (activeTabName === 'mobilePreview' && mobilePreviewTabElement && window.getComputedStyle(mobilePreviewTabElement).display !== 'none') {
+                        const mobPrevTabEl = document.querySelector('.tab[data-tab="mobilePreview"]');
+                        if (activeTabName === 'mobilePreview' && mobPrevTabEl && getComputedStyle(mobPrevTabEl).display !== 'none') {
                              updateSpecificPreview(mobilePreviewFrame);
                         }
                         if (activeTabName === 'html' && htmlEditorInstance) {
-                            setTimeout(() => {
-                                htmlEditorInstance.layout();
-                                // htmlEditorInstance.focus(); // Focus can be aggressive on load
-                            }, 50);
+                            setTimeout(() => { if (htmlEditorInstance) htmlEditorInstance.layout(); }, 50);
                         }
                     }
                 }
             }
-            setInitialActiveTab(); 
-            window.addEventListener('resize', debounce(setInitialActiveTab, 250)); 
-
+            window.addEventListener('resize', debounce(setInitialActiveTab, 250));
         });
     </script>
 </body>
