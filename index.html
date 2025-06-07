@@ -131,7 +131,8 @@
             color: var(--text-secondary); 
             border-radius: 4px; font-size: 14px;
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-            display: inline-flex; align-items: center;
+            /* display: inline-flex; -- REMOVED: To be handled by Tailwind classes */
+            /* align-items: center; -- REMOVED: To be handled by Tailwind items-center */
         }
         .tabs .tab i {
             color: var(--text-secondary); 
@@ -208,13 +209,13 @@
             <!-- Tabs -->
             <div class="tabs-container border-b border-slate-300 bg-slate-100 px-2.5 pt-2 flex-shrink-0">
                 <div class="tabs flex">
-                    <button class="tab cursor-pointer font-medium flex-shrink-0" data-tab="html">HTML Editor</button>
-                    <button class="tab cursor-pointer font-medium flex-shrink-0 active" data-tab="preview">
+                    <button class="tab cursor-pointer font-medium flex-shrink-0 inline-flex items-center" data-tab="html">HTML Editor</button>
+                    <button class="tab cursor-pointer font-medium flex-shrink-0 active inline-flex items-center" data-tab="preview">
                         <i class="fas fa-play mr-1.5 text-xs"></i>
                         <span class="hidden md:inline">Desktop View</span>
                         <span class="inline md:hidden">View</span>
                     </button>
-                    <button class="tab cursor-pointer font-medium flex-shrink-0 hidden md:flex" data-tab="mobilePreview">
+                    <button class="tab cursor-pointer font-medium flex-shrink-0 hidden md:flex items-center" data-tab="mobilePreview">
                         <i class="fas fa-play mr-1.5 text-xs"></i>
                         Mobile View
                     </button>
