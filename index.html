@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Studio</title>
+    <title>HTML Studio (Monaco Editor)</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Tailwind CSS -->
@@ -96,6 +96,18 @@
             color: var(--text-green-500) !important; transform: scale(1.1);
         }
 
+        /* Sidebar button adjustments for smaller screens */
+        @media (max-width: 767px) { /* Tailwind's 'md' breakpoint is 768px */
+            .sidebar button {
+                padding: 7px 9px;
+                font-size: 13px;
+            }
+            .sidebar button i {
+                margin-right: 10px;
+            }
+        }
+
+
         .mobile-frame {
             width: 310px;
             aspect-ratio: 310 / 620;
@@ -125,14 +137,12 @@
         .tabs { white-space: nowrap; padding-bottom: 4px; }
 
         .tabs .tab {
-            padding: 6px 12px; margin-right: 6px;
+            margin-right: 6px;
             border: 1px solid var(--sidebar-button-border-color);
-            background-color: var(--bg-primary); /* White background */
+            background-color: var(--bg-primary); 
             color: var(--text-secondary); 
-            border-radius: 4px; font-size: 14px;
+            border-radius: 4px; 
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-            /* display: inline-flex; -- REMOVED: To be handled by Tailwind classes */
-            /* align-items: center; -- REMOVED: To be handled by Tailwind items-center */
         }
         .tabs .tab i {
             color: var(--text-secondary); 
@@ -164,8 +174,8 @@
     <div class="header bg-slate-100 text-slate-900 py-3 px-5 border-b border-slate-300 flex justify-between items-center shadow-sm z-20 flex-shrink-0">
         <div class="flex items-center">
             <button id="sidebarToggleBtn" aria-label="Toggle sidebar" 
-                    class="md:hidden bg-white border border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-900 p-1.5 mr-2 -ml-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 rounded">
-                <i class="fas fa-bars text-xl"></i>
+                    class="md:hidden bg-white border border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-900 w-7 h-7 flex items-center justify-center mr-2 -ml-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 rounded">
+                <i class="fas fa-bars text-lg"></i>
             </button>
             <div class="title font-semibold text-lg flex items-center">
                 <!-- New SVG Icon -->
@@ -209,13 +219,13 @@
             <!-- Tabs -->
             <div class="tabs-container border-b border-slate-300 bg-slate-100 px-2.5 pt-2 flex-shrink-0">
                 <div class="tabs flex">
-                    <button class="tab cursor-pointer font-medium flex-shrink-0 inline-flex items-center" data-tab="html">HTML Editor</button>
-                    <button class="tab cursor-pointer font-medium flex-shrink-0 active inline-flex items-center" data-tab="preview">
-                        <i class="fas fa-play mr-1.5 text-xs"></i>
+                    <button class="tab cursor-pointer font-medium flex-shrink-0 inline-flex items-center text-xs px-2 py-1 md:text-sm md:px-3 md:py-1.5" data-tab="html">HTML Editor</button>
+                    <button class="tab cursor-pointer font-medium flex-shrink-0 active inline-flex items-center text-xs px-2 py-1 md:text-sm md:px-3 md:py-1.5" data-tab="preview">
+                        <i class="fas fa-play mr-1 md:mr-1.5 text-xs"></i>
                         <span class="hidden md:inline">Desktop View</span>
                         <span class="inline md:hidden">View</span>
                     </button>
-                    <button class="tab cursor-pointer font-medium flex-shrink-0 hidden md:flex items-center" data-tab="mobilePreview">
+                    <button class="tab cursor-pointer font-medium flex-shrink-0 hidden md:flex items-center text-sm px-3 py-1.5" data-tab="mobilePreview">
                         <i class="fas fa-play mr-1.5 text-xs"></i>
                         Mobile View
                     </button>
@@ -239,7 +249,7 @@
 
     <!-- Footer -->
     <div class="footer py-2 px-5 text-center bg-slate-100 border-t border-slate-300 text-xs text-slate-500 flex-shrink-0">
-        HTML Prewei © 2024. Built with You. <i class="fas fa-heart text-red-500"></i>
+        HTML Prewei © 2025. Crafted with you <i class="fas fa-heart text-red-500"></i>.
     </div>
 
     <script>
@@ -402,6 +412,17 @@
             100% {
                 opacity: 0.8; 
                 transform: translateY(110vh) translateX(var(--final-x-sway)) rotate(var(--final-rotation));
+            }
+        }
+        /* Styles for smaller screens within the preview */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em; /* Reduced from 2.5em */
+                margin-bottom: 15px;
+            }
+            #clickMeButton {
+                padding: 8px 18px; /* Reduced from 12px 28px */
+                font-size: 0.9em;  /* Reduced from 1em */
             }
         }
     </style>
