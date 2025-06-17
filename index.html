@@ -52,7 +52,7 @@
             display: flex;
             align-items: center;
             width: 100%;
-            padding: 9px 11px;
+            padding: 10px 14px; /* MODIFIED: Increased padding for PC view */
             margin-bottom: 5px;
             text-align: left;
             background-color: var(--bg-primary);
@@ -60,7 +60,7 @@
             cursor: pointer;
             border-radius: 4px;
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 15px; /* MODIFIED: Increased font size for PC view */
             text-decoration: none !important;
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
@@ -99,14 +99,25 @@
             color: var(--text-green-500) !important; transform: scale(1.1);
         }
 
-        @media (max-width: 767px) {
+        /* Sidebar button adjustments for smaller screens */
+        @media (max-width: 767px) { /* Tailwind's 'md' breakpoint is 768px */
             .sidebar button {
-                padding: 7px 9px;
-                font-size: 13px;
+                padding: 7px 9px; /* Reverts to smaller padding on mobile */
+                font-size: 13px; /* Reverts to smaller font size on mobile */
             }
             .sidebar button i {
                 margin-right: 10px;
             }
+        }
+
+        .logo-gradient-bg { /* ADDED for header logo background */
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 0.35rem; 
+            border-radius: 0.375rem; /* rounded-md */
+            display: inline-flex; 
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem; /* mr-2 */
         }
 
         .mobile-frame {
@@ -132,7 +143,7 @@
         }
 
         .tabs-container {
-            background-color: #F8F8FF; /* MODIFIED: New background color for tab area */
+            background-color: #F8F8FF;
             overflow-x: auto; -webkit-overflow-scrolling: touch;
         }
         .tabs-container::-webkit-scrollbar { height: 4px; }
@@ -185,13 +196,16 @@
                 <i class="fas fa-bars text-lg"></i>
             </button>
             <div class="title font-semibold text-lg flex items-center">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="mr-2 h-7 w-7 text-gray-800">
-                    <rect x="10" y="10" width="28" height="20" rx="4" fill="currentColor"/>
-                    <rect x="12" y="12" width="24" height="16" rx="2" fill="white"/>
-                    <path d="M16 32L20 36H28L32 32" fill="currentColor"/>
-                    <circle cx="20" cy="20" r="2" fill="currentColor"/>
-                    <circle cx="28" cy="20" r="2" fill="currentColor"/>
-                </svg>
+                <!-- MODIFIED: Wrapped SVG in a div with gradient background -->
+                <div class="logo-gradient-bg">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="h-6 w-6 text-gray-800">
+                        <rect x="10" y="10" width="28" height="20" rx="4" fill="currentColor"/>
+                        <rect x="12" y="12" width="24" height="16" rx="2" fill="white"/>
+                        <path d="M16 32L20 36H28L32 32" fill="currentColor"/>
+                        <circle cx="20" cy="20" r="2" fill="currentColor"/>
+                        <circle cx="28" cy="20" r="2" fill="currentColor"/>
+                    </svg>
+                </div>
                 PeekApp
             </div>
         </div>
@@ -220,7 +234,6 @@
         <!-- Content Area (Editor/Preview) -->
         <div class="content flex-1 flex flex-col overflow-hidden bg-white">
             <!-- Tabs -->
-            <!-- MODIFIED: Removed bg-slate-100 -->
             <div class="tabs-container border-b border-slate-300 px-2.5 pt-2 flex-shrink-0">
                 <div class="tabs flex">
                     <button class="tab cursor-pointer font-medium flex-shrink-0 inline-flex items-center text-xs px-2 py-1 md:text-sm md:px-3 md:py-1.5" data-tab="html">HTML Editor</button>
@@ -356,55 +369,55 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center;    
             min-height: 100vh;
             margin: 0;
-            background-color: #f8f9fa;
+            background-color: #ffffff; /* MODIFIED: Welcome page background to white */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            overflow: hidden;
+            overflow: hidden; 
         }
         .container {
             text-align: center;
         }
         h1 {
-            color: #0d6efd;
-            font-size: 2.5em;
-            margin-bottom: 20px;
+            color: #0d6efd; 
+            font-size: 2.5em; 
+            margin-bottom: 20px; 
             font-weight: bold;
         }
         #clickMeButton {
-            background-color: #0d6efd;
+            background-color: #0d6efd; 
             color: white;
             border: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-family: inherit;
+            padding: 12px 28px; 
+            border-radius: 8px;  
+            font-size: 1em;   
+            font-family: inherit; 
             cursor: pointer;
             transition: transform 0.1s ease-out, box-shadow 0.15s ease-out, background-color 0.15s ease-out;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
         }
         #clickMeButton:hover {
-            background-color: #0b5ed7;
+            background-color: #0b5ed7; 
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
+            transform: translateY(-2px); 
         }
         #clickMeButton.clicked {
-            transform: scale(0.95) translateY(0px);
-            background-color: #0a58ca;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transform: scale(0.95) translateY(0px); 
+            background-color: #0a58ca; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
         }
         #celebration-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1000; overflow: hidden;
+            pointer-events: none; z-index: 1000; overflow: hidden;     
         }
         .confetti {
-            position: absolute; opacity: 0;
+            position: absolute; opacity: 0; 
             animation-name: fallAndSway;
-            animation-timing-function: linear;
-            animation-fill-mode: forwards;
-            animation-duration: var(--fall-duration);
-            animation-delay: var(--animation-delay);
+            animation-timing-function: linear; 
+            animation-fill-mode: forwards;    
+            animation-duration: var(--fall-duration); 
+            animation-delay: var(--animation-delay);  
             transform-origin: center center;
         }
         @keyframes fallAndSway {
@@ -414,7 +427,7 @@
             }
             15% { opacity: 1; }
             100% {
-                opacity: 0.8;
+                opacity: 0.8; 
                 transform: translateY(110vh) translateX(var(--final-x-sway)) rotate(var(--final-rotation));
             }
         }
@@ -447,7 +460,7 @@
                 startCelebration();
             });
             function startCelebration() {
-                const confettiCount = 100;
+                const confettiCount = 100; 
                 const colors = ['#FFD700', '#FF69B4', '#00FFFF', '#ADFF2F', '#FF4500', '#9370DB'];
                 for (let i = 0; i < confettiCount; i++) { createConfettiPiece(colors); }
             }
@@ -455,30 +468,30 @@
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                let size = Math.random() * 6 + 5;
+                let size = Math.random() * 6 + 5; 
                 confetti.style.backgroundColor = randomColor;
                 confetti.style.width = \`\${size}px\`;
-                if (Math.random() < 0.25) {
+                if (Math.random() < 0.25) { 
                     confetti.style.borderRadius = '50%';
-                    confetti.style.height = \`\${size}px\`;
-                } else {
+                    confetti.style.height = \`\${size}px\`; 
+                } else { 
                     confetti.style.height = \`\${size * (Math.random() * 0.6 + 1.0)}px\`;
                     if (Math.random() < 0.15) { confetti.style.width = \`\${Math.max(2, size / 3.5)}px\`; }
                 }
                 let horizontalPositionPercent = (Math.random() < 0.5) ? (Math.random() * 30) : (70 + Math.random() * 30);
                 confetti.style.left = \`\${horizontalPositionPercent}vw\`;
-                const fallDuration = Math.random() * 2.5 + 3.0;
-                let swayMagnitude = Math.random() * 100 + 50;
-                let swayDirection = (horizontalPositionPercent < 50) ? 1 : -1;
-                if (Math.random() < 0.25) swayDirection *= -0.3;
+                const fallDuration = Math.random() * 2.5 + 3.0; 
+                let swayMagnitude = Math.random() * 100 + 50; 
+                let swayDirection = (horizontalPositionPercent < 50) ? 1 : -1; 
+                if (Math.random() < 0.25) swayDirection *= -0.3; 
                 const finalSway = swayDirection * swayMagnitude;
-                const initialRotation = Math.random() * 360;
-                const rotationChange = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 600 + 300);
-                const animationDelay = Math.random() * 0.8;
+                const initialRotation = Math.random() * 360; 
+                const rotationChange = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 600 + 300); 
+                const animationDelay = Math.random() * 0.8; 
                 confetti.style.setProperty('--fall-duration', \`\${fallDuration}s\`);
                 confetti.style.setProperty('--animation-delay', \`\${animationDelay}s\`);
-                confetti.style.setProperty('--initial-x-offset', '0px');
-                confetti.style.setProperty('--final-x-sway', \`\${finalSway}px\`);
+                confetti.style.setProperty('--initial-x-offset', '0px'); 
+                confetti.style.setProperty('--final-x-sway', \`\${finalSway}px\`); 
                 confetti.style.setProperty('--initial-rotation', \`\${initialRotation}deg\`);
                 confetti.style.setProperty('--final-rotation', \`\${initialRotation + rotationChange}deg\`);
                 celebrationContainer.appendChild(confetti);
