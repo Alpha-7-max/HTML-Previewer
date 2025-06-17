@@ -11,6 +11,9 @@
     <!-- Monaco Editor Loader -->
     <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
     <style>
+        /* ADDED: Google Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
         /* Custom CSS - for things Tailwind doesn't easily cover or for overrides */
         :root {
             --bg-primary: #ffffff; /* White - used for button backgrounds */
@@ -38,6 +41,10 @@
 
         .header {
             background-color: #FFFFFF; /* Pure white for header */
+        }
+        /* ADDED: Font for header title */
+        .header .title {
+            font-family: 'Source Sans Pro', sans-serif;
         }
 
         .sidebar {
@@ -109,7 +116,7 @@
         }
 
         .logo-gradient-bg {
-            background-color: #2d5baa; /* MODIFIED: Solid blue color for PreviewHub */
+            background-color: #0284c7; /* MODIFIED: New solid blue color */
             padding: 0.35rem; 
             border-radius: 0.375rem; 
             display: inline-flex; 
@@ -195,7 +202,6 @@
             </button>
             <div class="title font-semibold text-lg flex items-center">
                 <div class="logo-gradient-bg">
-                    <!-- New PreviewHub SVG Icon -->
                     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="h-6 w-6 text-white">
                         <path d="M24 8L28 20H40L30 28L34 40L24 32L14 40L18 28L8 20H20L24 8Z" fill="currentColor"/>
                         <circle cx="24" cy="24" r="4" fill="white"/>
