@@ -38,7 +38,7 @@
         }
 
         .header {
-            background-color: #FFFFFF; /* MODIFIED: Pure white for header */
+            background-color: #FFFFFF; /* Pure white for header */
         }
 
         .sidebar {
@@ -113,7 +113,7 @@
             width: 360px;
             aspect-ratio: 9 / 16;
             max-width: 100%; max-height: 100%; box-sizing: border-box;
-            border: 12px solid black;
+            border: 10px solid black;
             border-radius: 35px;
             background-color: black;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
@@ -132,6 +132,7 @@
         }
 
         .tabs-container {
+            background-color: #F8F8FF; /* MODIFIED: New background color for tab area */
             overflow-x: auto; -webkit-overflow-scrolling: touch;
         }
         .tabs-container::-webkit-scrollbar { height: 4px; }
@@ -171,7 +172,7 @@
         }
 
         .footer {
-            background-color: #FFFFFF; /* MODIFIED: Pure white for footer */
+            background-color: #FFFFFF; /* Pure white for footer */
         }
     </style>
 </head>
@@ -184,17 +185,14 @@
                 <i class="fas fa-bars text-lg"></i>
             </button>
             <div class="title font-semibold text-lg flex items-center">
-                <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mr-2 h-7 w-7">
-                    <circle cx="50" cy="50" r="45" fill="#2196F3"/>
-                    <path d="M35,20 Q20,20 20,35 L20,65 Q20,80 35,80"
-                          fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
-                    <path d="M65,20 Q80,20 80,35 L80,65 Q80,80 65,80"
-                          fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
-                    <rect x="30" y="35" width="40" height="30" fill="#333" rx="2"/>
-                    <circle cx="40" cy="50" r="5" fill="#ffffff"/>
-                    <rect x="50" y="45" width="15" height="10" fill="#ffffff" rx="1"/>
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="mr-2 h-7 w-7 text-gray-800">
+                    <rect x="10" y="10" width="28" height="20" rx="4" fill="currentColor"/>
+                    <rect x="12" y="12" width="24" height="16" rx="2" fill="white"/>
+                    <path d="M16 32L20 36H28L32 32" fill="currentColor"/>
+                    <circle cx="20" cy="20" r="2" fill="currentColor"/>
+                    <circle cx="28" cy="20" r="2" fill="currentColor"/>
                 </svg>
-                HTML Studio
+                PeekApp
             </div>
         </div>
     </div>
@@ -222,7 +220,8 @@
         <!-- Content Area (Editor/Preview) -->
         <div class="content flex-1 flex flex-col overflow-hidden bg-white">
             <!-- Tabs -->
-            <div class="tabs-container border-b border-slate-300 bg-slate-100 px-2.5 pt-2 flex-shrink-0">
+            <!-- MODIFIED: Removed bg-slate-100 -->
+            <div class="tabs-container border-b border-slate-300 px-2.5 pt-2 flex-shrink-0">
                 <div class="tabs flex">
                     <button class="tab cursor-pointer font-medium flex-shrink-0 inline-flex items-center text-xs px-2 py-1 md:text-sm md:px-3 md:py-1.5" data-tab="html">HTML Editor</button>
                     <button class="tab cursor-pointer font-medium flex-shrink-0 active inline-flex items-center text-xs px-2 py-1 md:text-sm md:px-3 md:py-1.5" data-tab="preview">
