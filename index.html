@@ -14,9 +14,9 @@
         /* Custom CSS - for things Tailwind doesn't easily cover or for overrides */
         :root {
             --bg-primary: #ffffff; /* White - used for button backgrounds */
-            --bg-secondary: #f8f9fa; 
+            --bg-secondary: #f8f9fa;
             --bg-tertiary: #e9ecef;  /* Sidebar/Tab button hover BG */
-            --border-color: #dee2e6; 
+            --border-color: #dee2e6;
             --text-primary: #212529; /* Sidebar/Tab button hover text */
             --text-secondary: #495057;/* Sidebar/Tab button default text/icon, Tab inactive text, Tab icon color */
             --accent-color: #0d6efd;  /* Sidebar button hover icon, Tab active BG */
@@ -27,10 +27,10 @@
             --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --text-green-500: #10B981;
-            --sidebar-button-border-color: #cbd5e1; 
-            --sidebar-button-border-hover-color: #94a3b8; 
+            --sidebar-button-border-color: #cbd5e1;
+            --sidebar-button-border-hover-color: #94a3b8;
             /* --logo-color: #0D6EFD; -- No longer needed as SVG has its own colors */
-            --tab-active-text-color: #ffffff; 
+            --tab-active-text-color: #ffffff;
             --header-bg-color: #f1f5f9; /* Tailwind slate-100 */
         }
 
@@ -40,7 +40,7 @@
 
         .sidebar {
             width: 220px;
-            background-color: var(--header-bg-color); 
+            background-color: var(--header-bg-color);
             border-right: 1px solid var(--border-color);
             padding: 15px 10px;
         }
@@ -109,10 +109,10 @@
 
 
         .mobile-frame {
-            width: 310px;
-            aspect-ratio: 310 / 620;
+            width: 360px; /* MODIFIED: Increased from 310px */
+            aspect-ratio: 9 / 16; /* MODIFIED: Adjusted for a common mobile screen proportion (e.g., 360x640). Was 310 / 620 */
             max-width: 100%; max-height: 100%; box-sizing: border-box;
-            border: 8px solid black; border-radius: 12px; 
+            border: 8px solid black; border-radius: 12px;
             background-color: black;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
             overflow: hidden; margin: auto; display: flex;
@@ -139,32 +139,32 @@
         .tabs .tab {
             margin-right: 6px;
             border: 1px solid var(--sidebar-button-border-color);
-            background-color: var(--bg-primary); 
-            color: var(--text-secondary); 
-            border-radius: 4px; 
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            border-radius: 4px;
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
         .tabs .tab i {
-            color: var(--text-secondary); 
-            transition: none; 
+            color: var(--text-secondary);
+            transition: none;
         }
         .tabs .tab:hover {
             background-color: var(--bg-tertiary);
             border-color: var(--sidebar-button-border-hover-color);
-            color: var(--text-primary); 
+            color: var(--text-primary);
         }
-        .tabs .tab:not(.active):hover i { 
+        .tabs .tab:not(.active):hover i {
             color: var(--text-secondary);
         }
         .tabs .tab.active {
             background-color: var(--accent-color);
             border-color: var(--accent-color-hover);
-            color: var(--tab-active-text-color); 
+            color: var(--tab-active-text-color);
         }
         .tabs .tab.active i {
-            color: var(--tab-active-text-color); 
+            color: var(--tab-active-text-color);
         }
-        .tabs .tab.active:hover i { 
+        .tabs .tab.active:hover i {
              color: var(--tab-active-text-color);
         }
     </style>
@@ -173,7 +173,7 @@
     <!-- Header -->
     <div class="header bg-slate-100 text-slate-900 py-3 px-5 border-b border-slate-300 flex justify-between items-center shadow-sm z-20 flex-shrink-0">
         <div class="flex items-center">
-            <button id="sidebarToggleBtn" aria-label="Toggle sidebar" 
+            <button id="sidebarToggleBtn" aria-label="Toggle sidebar"
                     class="md:hidden bg-white border border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-900 w-7 h-7 flex items-center justify-center mr-2 -ml-1 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 rounded">
                 <i class="fas fa-bars text-lg"></i>
             </button>
@@ -335,7 +335,7 @@
                 setTimeout(() => {
                     toastNotification.classList.remove('opacity-100');
                     toastNotification.classList.add('opacity-0');
-                }, 2500); 
+                }, 2500);
             }
 
             require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' }});
@@ -352,55 +352,55 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: center;    
+            align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f8f9fa; 
+            background-color: #f8f9fa;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            overflow: hidden; 
+            overflow: hidden;
         }
         .container {
             text-align: center;
         }
         h1 {
-            color: #0d6efd; 
-            font-size: 2.5em; 
-            margin-bottom: 20px; 
+            color: #0d6efd;
+            font-size: 2.5em;
+            margin-bottom: 20px;
             font-weight: bold;
         }
         #clickMeButton {
-            background-color: #0d6efd; 
+            background-color: #0d6efd;
             color: white;
             border: none;
-            padding: 12px 28px; 
-            border-radius: 8px;  
-            font-size: 1em;   
-            font-family: inherit; 
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
             cursor: pointer;
             transition: transform 0.1s ease-out, box-shadow 0.15s ease-out, background-color 0.15s ease-out;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         #clickMeButton:hover {
-            background-color: #0b5ed7; 
+            background-color: #0b5ed7;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px); 
+            transform: translateY(-2px);
         }
         #clickMeButton.clicked {
-            transform: scale(0.95) translateY(0px); 
-            background-color: #0a58ca; 
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+            transform: scale(0.95) translateY(0px);
+            background-color: #0a58ca;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         #celebration-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1000; overflow: hidden;     
+            pointer-events: none; z-index: 1000; overflow: hidden;
         }
         .confetti {
-            position: absolute; opacity: 0; 
+            position: absolute; opacity: 0;
             animation-name: fallAndSway;
-            animation-timing-function: linear; 
-            animation-fill-mode: forwards;    
-            animation-duration: var(--fall-duration); 
-            animation-delay: var(--animation-delay);  
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+            animation-duration: var(--fall-duration);
+            animation-delay: var(--animation-delay);
             transform-origin: center center;
         }
         @keyframes fallAndSway {
@@ -410,7 +410,7 @@
             }
             15% { opacity: 1; }
             100% {
-                opacity: 0.8; 
+                opacity: 0.8;
                 transform: translateY(110vh) translateX(var(--final-x-sway)) rotate(var(--final-rotation));
             }
         }
@@ -443,7 +443,7 @@
                 startCelebration();
             });
             function startCelebration() {
-                const confettiCount = 100; 
+                const confettiCount = 100;
                 const colors = ['#FFD700', '#FF69B4', '#00FFFF', '#ADFF2F', '#FF4500', '#9370DB'];
                 for (let i = 0; i < confettiCount; i++) { createConfettiPiece(colors); }
             }
@@ -451,30 +451,30 @@
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                let size = Math.random() * 6 + 5; 
+                let size = Math.random() * 6 + 5;
                 confetti.style.backgroundColor = randomColor;
                 confetti.style.width = \`\${size}px\`;
-                if (Math.random() < 0.25) { 
+                if (Math.random() < 0.25) {
                     confetti.style.borderRadius = '50%';
-                    confetti.style.height = \`\${size}px\`; 
-                } else { 
+                    confetti.style.height = \`\${size}px\`;
+                } else {
                     confetti.style.height = \`\${size * (Math.random() * 0.6 + 1.0)}px\`;
                     if (Math.random() < 0.15) { confetti.style.width = \`\${Math.max(2, size / 3.5)}px\`; }
                 }
                 let horizontalPositionPercent = (Math.random() < 0.5) ? (Math.random() * 30) : (70 + Math.random() * 30);
                 confetti.style.left = \`\${horizontalPositionPercent}vw\`;
-                const fallDuration = Math.random() * 2.5 + 3.0; 
-                let swayMagnitude = Math.random() * 100 + 50; 
-                let swayDirection = (horizontalPositionPercent < 50) ? 1 : -1; 
-                if (Math.random() < 0.25) swayDirection *= -0.3; 
+                const fallDuration = Math.random() * 2.5 + 3.0;
+                let swayMagnitude = Math.random() * 100 + 50;
+                let swayDirection = (horizontalPositionPercent < 50) ? 1 : -1;
+                if (Math.random() < 0.25) swayDirection *= -0.3;
                 const finalSway = swayDirection * swayMagnitude;
-                const initialRotation = Math.random() * 360; 
-                const rotationChange = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 600 + 300); 
-                const animationDelay = Math.random() * 0.8; 
+                const initialRotation = Math.random() * 360;
+                const rotationChange = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 600 + 300);
+                const animationDelay = Math.random() * 0.8;
                 confetti.style.setProperty('--fall-duration', \`\${fallDuration}s\`);
                 confetti.style.setProperty('--animation-delay', \`\${animationDelay}s\`);
-                confetti.style.setProperty('--initial-x-offset', '0px'); 
-                confetti.style.setProperty('--final-x-sway', \`\${finalSway}px\`); 
+                confetti.style.setProperty('--initial-x-offset', '0px');
+                confetti.style.setProperty('--final-x-sway', \`\${finalSway}px\`);
                 confetti.style.setProperty('--initial-rotation', \`\${initialRotation}deg\`);
                 confetti.style.setProperty('--final-rotation', \`\${initialRotation + rotationChange}deg\`);
                 celebrationContainer.appendChild(confetti);
@@ -540,16 +540,16 @@
                     const htmlEditorTab = document.querySelector('.tab[data-tab="html"]');
                     if (htmlEditorTab) {
                         if (!htmlEditorTab.classList.contains('active')) {
-                            htmlEditorTab.click(); 
+                            htmlEditorTab.click();
                             setTimeout(() => { if (htmlEditorInstance) htmlEditorInstance.setSelection(htmlEditorInstance.getModel().getFullModelRange()); }, 100);
                         } else {
                             htmlEditorInstance.focus(); htmlEditorInstance.setSelection(htmlEditorInstance.getModel().getFullModelRange());
                         }
                     }
                     setTimeout(() => { icon.className = origIconCls; span.textContent = origSpanTxt; }, 2000);
-                } catch (err) { 
-                    logError(`Copy failed: ${err.message}`); alert("Copy failed. See console."); 
-                    icon.className = origIconCls; span.textContent = origSpanTxt; 
+                } catch (err) {
+                    logError(`Copy failed: ${err.message}`); alert("Copy failed. See console.");
+                    icon.className = origIconCls; span.textContent = origSpanTxt;
                 }
                 closeMobileSidebar();
             }));
@@ -558,12 +558,12 @@
                 const icon=pasteCodeBtn.querySelector('i'), span=pasteCodeBtn.querySelector('span');
                 const origIconCls=icon.className, origSpanTxt=span.textContent;
                 try {
-                    if (!navigator.clipboard || !navigator.clipboard.readText) { 
-                        alert("Paste not supported/secure. Use Ctrl+V in editor."); logError("Clipboard API denied."); 
-                        closeMobileSidebar(); return; 
+                    if (!navigator.clipboard || !navigator.clipboard.readText) {
+                        alert("Paste not supported/secure. Use Ctrl+V in editor."); logError("Clipboard API denied.");
+                        closeMobileSidebar(); return;
                     }
                     htmlEditorInstance.setValue(await navigator.clipboard.readText());
-                    showToast("Pasted!"); 
+                    showToast("Pasted!");
                     icon.className = 'fas fa-check'; span.textContent = 'Pasted!';
                     setTimeout(() => { icon.className = origIconCls; span.textContent = origSpanTxt; }, 2000);
                 } catch (err) {
@@ -612,12 +612,12 @@
                         const oldContent = document.getElementById(activeTabButton.dataset.tab + 'Tab');
                         if(oldContent) { oldContent.classList.remove('active','z-10'); oldContent.classList.add('z-0'); }
                     }
-                    activeTabButton = document.querySelector('.tab[data-tab="preview"]'); 
+                    activeTabButton = document.querySelector('.tab[data-tab="preview"]');
                     if (!activeTabButton || getComputedStyle(activeTabButton).display === 'none') {
-                        activeTabButton = document.querySelector('.tab[data-tab="html"]'); 
+                        activeTabButton = document.querySelector('.tab[data-tab="html"]');
                     }
                     if (!activeTabButton || getComputedStyle(activeTabButton).display === 'none') {
-                        activeTabButton = Array.from(tabs).find(t => getComputedStyle(t).display !== 'none'); 
+                        activeTabButton = Array.from(tabs).find(t => getComputedStyle(t).display !== 'none');
                     }
                 }
 
